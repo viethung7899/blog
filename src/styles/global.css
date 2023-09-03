@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply border-neutral;
+    @apply border-base-content/20;
   }
   body {
     @apply bg-base-100 text-base-content;
