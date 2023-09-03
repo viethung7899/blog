@@ -1,0 +1,53 @@
+---
+title: Visualizing sorting algorithms
+date: 2022-09-02
+thumbnail: posts/sort
+tags: [svelte]
+description: Using Svelte to embed interactivity within my first interactive post about sorting algorithms
+interactive: true
+---
+
+import SortingVisualizer from "../../interactives/sorting-visualizer/SortingVisualizer.svelte"
+
+<div class="bg-base-300 p-4 rounded-md mb-8">
+  <SortingVisualizer client:visible />
+</div>
+
+## Motivation
+
+Sorting problem are classic introductory topic for any first-year computer science.
+The algorithms are little bit intimidated at the first place, but they introduce a variety
+of interesting concepts to guide students to think like programmers for better problem-solving.
+
+My goal here is to create a tool to visualize sorting algorithms.
+I hope a clear visualization can aid student to understand these algorithms. There are a lot of
+website for visualizing algorithms. In fact, I already made a website for that purpose. Most of them
+are just standalone websites. However, my challenge is to integrate the visualization within the blog post.
+
+As mention on the [previous blog](/blogs/how-i-built-my-portfolio-with-astro),
+I use the MDX format compose the blog posts.
+MDX allow us to inject the JSX elements inside the markdown files.
+For the implementation, I choose Svelte to embed interactivity within the blog post
+because its simplicity.
+
+## Features
+
+The [visualizer](#sorting-visualizer) supports these features below
+
+- Set the number of elements in the array (from 10 to 100 elements)
+- Choose your algorithms
+  - Bubble sort
+  - Selection sort
+  - Insertion sort
+  - Merge sort
+  - Quicksort
+  - Heap sort
+- Change the sorting speed (even when the animation is running)
+- Play, pause and resume the animation
+
+## Tools I use
+
+- [Svelte](https://svelte.dev/) for frontend UI
+- For animating the sorting process, I use [function generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)
+  to create a generator function. The generator function will yield the current state of the array
+  after each step of the sorting process.
