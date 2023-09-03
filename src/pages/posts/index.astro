@@ -1,0 +1,25 @@
+---
+import PostEntry from '@/components/PostEntry.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SEO } from 'astro-seo';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts').then((result) => {
+  result.sort((a, b) => +b.data.date - +a.data.date);
+  return result;
+});
+---
+
+<BaseLayout>
+  <SEO
+    slot="seo"
+    title="All posts"
+    description="A collection of thoughts about my journey into coding, small web experiments, and other topics about the programming."
+  />
+  <section class="container my-8 flex flex-col gap-8">
+    <h1 class="text-2xl sm:text-3xl font-semibold">All posts</h1>
+    <ul class="space-y-8">
+      {posts.map((entry) => <PostEntry {entry} />)}
+    </ul>
+  </section>
+</BaseLayout>

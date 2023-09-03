@@ -1,29 +1,33 @@
 ---
-import type { CollectionEntry } from 'astro:content'
+import type { CollectionEntry } from 'astro:content';
 interface Props {
-  entry: CollectionEntry<"posts">
+  entry: CollectionEntry<'posts'>;
 }
 
-const entry = Astro.props.entry
-const {title, date, description, tags} = entry.data
+const entry = Astro.props.entry;
+const { title, date, description, tags } = entry.data;
 
-const formatter = new Intl.DateTimeFormat("en", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  timeZone: "utc"
-})
+const formatter = new Intl.DateTimeFormat('en', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'utc',
+});
 ---
 
-<li>
-  <div>
-    <a href={`/posts/${entry.slug}`} class="hover:underline">
-      <h3 class="font-semibold">{title}</h3>
-    </a>
-    <p class="text-base-content/60">{formatter.format(date)}</p>
-    <p class="text-sm mt-2">{description}</p>
-    {tags && <div class="flex gap-1 mt-2">
-      {tags.map(tag => <div class="badge badge-sm badge-accent">{tag}</div>)}
-    </div>}
-  </div>
+<li class="relative group">
+  <a href={`/posts/${entry.slug}`} class="hover:underline">
+    <h3 class="font-semibold">{title}</h3>
+  </a>
+  <p class="text-base-content/60">{formatter.format(date)}</p>
+  <p class="text-sm mt-2">{description}</p>
+  {
+    tags && (
+      <div class="flex gap-1 mt-2">
+        {tags.map((tag) => (
+          <div class="badge badge-sm badge-accent">{tag}</div>
+        ))}
+      </div>
+    )
+  }
 </li>

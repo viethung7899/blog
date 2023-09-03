@@ -1,0 +1,39 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { InferGetStaticParamsType } from "astro";
+import { getCollection, getEntry } from "astro:content";
+import typography from '@/components/typography'
+import {SEO} from "astro-seo"
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts")
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }))
+}
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>
+const { slug } = Astro.params as Params
+const post = await getEntry("posts", slug)
+
+const {title, date, description} = post.data
+const formatter = new Intl.DateTimeFormat("en", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  timeZone: "utc"
+})
+
+const {Content} = await post.render()
+---
+
+<BaseLayout>
+  <SEO slot="seo" {title} {description} />
+  <section class="container my-8 space-y-4">
+    <h1 class="font-semibold text-3xl">{title}</h1>
+    <p>{formatter.format(date)}</p>
+  </section>
+  <article class="container mb-16">
+    <Content components={typography} />
+  </article>
+</BaseLayout>
