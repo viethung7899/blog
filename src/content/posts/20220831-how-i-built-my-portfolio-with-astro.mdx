@@ -1,0 +1,65 @@
+---
+title: How I built my portfolio with Astro
+date: 2022-08-30
+thumbnail: posts/astro
+description: A quick overview about Astro, a static site generator
+  that allows me to use any frontend frameworks in the same application, along with other tools like MDX, Tailwind, and Vercel.
+tags: [astro, tailwind, mdx]
+---
+
+I'm passionate about web development, especially the frontend tools.
+I spent a lot of time doing some experiment with some of the most popular frontend UI frameworks.
+Among of those, my favorite choice are so far React and Svelte.
+
+After playing with code, I decided to make a portfolio website to advertise myself to potential employers.
+Now, I have to **pick only one** of two my favourite framework.
+I like React because of its powerful community with many third-party packages, and I also love the fun and simplicity of Svelte.
+It was a tough decision. What if I can use both of them in the same application? Luckily, I found **Astro**.
+
+## Why Astro?
+
+[Astro](https://astro.build) is a perfect candidate for my portfolio project,
+and here some reasons:
+
+- It is a _static site generator_ (SSG), suitable for building portfolio
+  since I may not update the content very often
+- It allows to ship a website with _no or little JavaScript_,
+  which means websites building with Astro is blazingly fast
+- It is compatible with many existing UI frameworks like React or Svelte
+- It has a lot of integration tools, where you can quickly install with Astro CLI
+
+## Other tools
+
+Alongside with Astro, I also use other tools to aid my DX and make the website more beautiful.
+
+### Tailwind
+
+[Tailwind](https://tailwindcss.com) is a utility-first CSS framework where you can quickly style
+the component with predefined class names.
+Normally, I found styling components is a slow and painful experience.
+However, Tailwind is easy to learn and can quickly speed up the development process.
+Tailwind also provides more benefits such as
+
+- **Non-opinionated**: Tailwind can work with any existing UI platforms. I can style the document
+  everywhere in plain HTML, React, or Svelte.
+- **Great documentation**: navigation around the [docs](https://tailwindcss.com/docs/) is easy
+- **Smooth DX**: Tailwind also provide VSCode extension called Tailwind CSS Intellisense
+- **Integration with Astro** with [`@astrojs/tailwind`](https://docs.astro.build/en/guides/integrations-guide/tailwind/)
+
+### MDX
+
+[MDX](https://mdxjs.com/) is the extension of markdown file, allows us to use JSX elements in markdown.
+MDX also integrate with Astro via [`@astrojs/mdx`](https://docs.astro.build/en/guides/integrations-guide/mdx/)
+
+Markdown is great format to quickly compose a blog post, but sometimes I want to
+include some interactivity within the blog post, like my favourite website Brilliant.
+The JSX supports for MDX allows me to add visualization for better explaining the concepts
+and make the post more unique and compelling.
+
+### Vercel
+
+[Vercel](https://vercel.com/) is a deployment platform for frontend developers.
+
+Recently, I migrated all my web projects to Vercel, and love how easy it is to deploy my apps.
+Whenever I push the code the main branch, Vercel will automatically deploy my apps with the [GitHub integration tool](https://vercel.com/docs/concepts/git/vercel-for-github).
+This helps me focus more building the app while Vercel is taking care the complexity of deployment pipeline.
