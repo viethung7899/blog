@@ -15,19 +15,20 @@ const formatter = new Intl.DateTimeFormat('en', {
 });
 ---
 
-<li class="relative group">
-  <a href={`/posts/${entry.slug}`} class="hover:underline">
-    <h3 class="font-semibold">{title}</h3>
+<li class="flex flex-col group relative z-10">
+  <a href={`/posts/${entry.slug}`} class="link link-hover hover:link-accent">
+    <h3 class="font-semibold text-lg">{title}</h3>
   </a>
-  <p class="text-base-content/60">{formatter.format(date)}</p>
-  <p class="text-sm mt-2">{description}</p>
+  <small class="text-base-content/60">{formatter.format(date)}</small>
+  <p>{description}</p>
   {
-    tags && (
+    tags ? (
       <div class="flex gap-1 mt-2">
         {tags.map((tag) => (
           <div class="badge badge-sm badge-accent">{tag}</div>
         ))}
       </div>
-    )
+    ) : null
   }
+  <div class="absolute -inset-2 rounded-md group-hover:bg-base-content/20 -z-10"></div>
 </li>
