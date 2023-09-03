@@ -1,0 +1,73 @@
+---
+title: Visualizing Mandelbrot set
+date: 2022-12-25
+thumbnail: posts/mandelbrot
+tags: [svelte, pixijs, glsl, webgl]
+description: A more challenging using WebGL and GLSL to visualize the Mandelbrot set, and also Julia set.
+interactive: true
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+  integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn"
+  crossorigin="anonymous"
+/>
+
+import DesktopOnly from '@/interactives/DesktopOnly.astro';
+import Mandelbrot from '@/interactives/mandelbrot/Mandelbrot.svelte';
+import Julia from '@/interactives/mandelbrot/Julia.svelte';
+
+<DesktopOnly>
+  <div class="bg-base-300 p-4 rounded-md">
+    <Mandelbrot client:visible />
+  </div>
+</DesktopOnly>
+
+**Note**: This post requires you to have a basic understanding of complex numbers.
+If you don't know what complex numbers are, you can read about them [here](https://www.mathsisfun.com/numbers/complex-numbers.html).
+
+# Introduction
+
+I love coding, and I also have a passion for mathematics.
+I've always wanted to combine my love of coding and my knowledge of mathematics
+to create interesting but also educational visualization, something is similar to the works of
+[3Blue1Brown](https://www.youtube.com/@3blue1brown) and [The Coding Train](https://www.youtube.com/@thecodingtrain).
+
+I've always been fascinated by fractals. They are geometric entities with infinite amount of roughness. They have fractional dimensions (not 1D, 2D, or 3D).
+Among them, Mandelbrot set is one of the well-known fractals. Since the generation process is simple and straightforward, it is a great entry point
+for people who want to code their own fractal visualizations. However, there are some challenges
+when rendering fractals in real time.
+
+# What is Mandelbrot set?
+
+The Mandelbrot set is a fascinating fractal discovered by Benoit Mandelbrot in 1980.
+To generate the set, we need series of complex numbers starting from $0$ and recursively apply the function $$f(z) = z^2 + c$$, where $$c$$ is a complex constant.
+
+In general, we have a series of complex numbers
+
+$$
+0, f(0), f(f(0)), f(f(f(0))), \dots
+$$
+
+This series will eventually converge to a point, oscillate, or diverge to infinity and depends on the choice of constant $$c$$.
+If the series _diverges to infinity_, then the point $$c$$ is **not** in the Mandelbrot set. On the other cases, $c$ is in the set.
+
+# What I use to render Mandelbrot set?
+
+- For the frontend UI, I use [Svelte](https://svelte.dev/) as my preferred framework.
+- For the visualization tool, I use [p5.js](https://p5js.org/), a powerful tool for creative coding. Also, it abstracts away the WebGL pipeline.
+- I use [GLSL](<https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)>) to write the shader code for the fractals.
+
+# Bonus: The Julia Set
+
+<DesktopOnly>
+  <div class="bg-base-300 p-4 rounded-md">
+    <Julia client:visible />
+  </div>
+</DesktopOnly>
+
+The Julia set is a fractal is the fractal that use the same recursive function $f(z) = z^2 + c$ as the Mandelbrot set.
+However, the iterative process to generate Julia is quite different from the Julia set.
+Instead of starting with initial $z_0 = 0$ and plotting the constant $c$, we would start with arbitrary $c$ and plot the initial value $z_0$.
+This leads to different choice of constant $c$ resulting in different Julia set.
