@@ -1,7 +1,13 @@
 ---
+import PostEntry from '@/components/PostEntry.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SEO } from 'astro-seo';
+import { getCollection } from 'astro:content';
 
+const posts = await getCollection('posts').then((result) => {
+  result.sort((a, b) => +b.data.date - +a.data.date);
+  return result.slice(0, 3);
+});
 
 const title = "Viet-Hung Nguyen's Blog";
 const description =
@@ -17,6 +23,9 @@ const description =
   <div class="divider container p-0"></div>
   <section class="container my-8 flex flex-col gap-8">
     <h2 class="text-xl font-semibold">Latest post</h2>
+    <ul class="space-y-8">
+      {posts.map((entry) => <PostEntry {entry} />)}
+    </ul>
     <a href="/posts" class="font-bold hover:underline after:content-['_→']"
       >View all posts</a
     >
