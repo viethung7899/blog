@@ -1,0 +1,23 @@
+---
+import Header from "@/components/site/Header.astro"
+import Footer from "@/components/site/Footer.astro";
+
+import "@/styles/global.css"
+---
+
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <slot name="seo" />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <Header />
+    <main class="flex flex-col flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
