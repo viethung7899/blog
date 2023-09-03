@@ -13,7 +13,7 @@ const Link = (props: ComponentProps<"svg">) => {
 
 export const h2 = ({ children, ...props }: ComponentProps<"h2">) => {
   return (
-    <h2 {...props} className="group flex items-center scroll-m-16 border-t mt-2 pt-4 pb-2 text-2xl font-semibold tracking-tight transition-colors">
+    <h2 {...props} className="group flex items-center scroll-m-16 border-b mt-2 pt-4 pb-2 text-2xl font-semibold tracking-tight transition-colors">
       {children}
       <a className="hidden group-hover:block hover:text-accent" href={`#${props.id}`}>
         <Link className="h-5 w-5 ml-1" />
@@ -24,7 +24,7 @@ export const h2 = ({ children, ...props }: ComponentProps<"h2">) => {
 
 export const h3 = ({ children, ...props }: ComponentProps<"h3">) => {
   return (
-    <h3 {...props} className="group flex items-center scroll-m-16 border-t mt-2 pt-4 pb-2 text-xl font-semibold tracking-tight transition-colors">
+    <h3 {...props} className="group flex items-center scroll-m-16 border-b mt-2 pt-4 pb-2 text-xl font-semibold tracking-tight transition-colors">
       {children}
       <a className="hidden group-hover:block hover:text-accent" href={`#${props.id}`}>
         <Link className="h-4 w-4 ml-1" />
