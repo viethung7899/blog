@@ -27,7 +27,7 @@ import Julia from '@/interactives/mandelbrot/Julia.svelte';
 **Note**: This post requires you to have a basic understanding of complex numbers.
 If you don't know what complex numbers are, you can read about them [here](https://www.mathsisfun.com/numbers/complex-numbers.html).
 
-# Introduction
+## Introduction
 
 I love coding, and I also have a passion for mathematics.
 I've always wanted to combine my love of coding and my knowledge of mathematics
@@ -39,7 +39,7 @@ Among them, Mandelbrot set is one of the well-known fractals. Since the generati
 for people who want to code their own fractal visualizations. However, there are some challenges
 when rendering fractals in real time.
 
-# What is Mandelbrot set?
+## What is Mandelbrot set?
 
 The Mandelbrot set is a fascinating fractal discovered by Benoit Mandelbrot in 1980.
 To generate the set, we need series of complex numbers starting from $0$ and recursively apply the function $$f(z) = z^2 + c$$, where $$c$$ is a complex constant.
@@ -53,13 +53,13 @@ $$
 This series will eventually converge to a point, oscillate, or diverge to infinity and depends on the choice of constant $$c$$.
 If the series _diverges to infinity_, then the point $$c$$ is **not** in the Mandelbrot set. On the other cases, $c$ is in the set.
 
-# What I use to render Mandelbrot set?
+## What I use to render Mandelbrot set?
 
 - For the frontend UI, I use [Svelte](https://svelte.dev/) as my preferred framework.
 - For the visualization tool, I use [p5.js](https://p5js.org/), a powerful tool for creative coding. Also, it abstracts away the WebGL pipeline.
 - I use [GLSL](<https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)>) to write the shader code for the fractals.
 
-# Bonus: The Julia Set
+## Bonus: The Julia Set
 
 <DesktopOnly>
   <div class="bg-base-300 p-4 rounded-md">

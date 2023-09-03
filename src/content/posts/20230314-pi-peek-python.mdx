@@ -1,0 +1,144 @@
+---
+title: Peeking π with Python
+date: 2023-03-14
+thumbnail: posts/pi
+tags: [svelte, python, serverless]
+description: Peeking digits of π with serverless function written in Python
+interactive: true
+---
+
+Happy π day everybody! I'm going to show you how to use serverless functions to build a quick API for find digits in π-thon.
+It may not the most useful use case for the serverless functions, but it's a fun one.
+More importantly, you can see the API in action with an embedded π finder in my blog below.
+Just input any sequences of digits to find their positions among the first **ten million** digits in π.
+
+The post is inspired by coding challenge [Peeking Inside Pi](https://www.youtube.com/watch?v=MEdpRYyjz_0)
+from [The Coding Train](https://www.youtube.com/channel/UCvjgXvBlbQiydffZU7m1_aw)
+
+import PiPeek from "../../interactives/pi-peek/PiPeek.svelte"
+
+<div class="bg-base-300 flex flex-col gap-4 rounded-md p-4 my-8">
+    <PiPeek client:visible />
+</div>
+
+## Ingredients for API
+
+- [Flask](https://palletsprojects.com/p/flask/) to build a quick Python server
+- [Vercel](https://vercel.com/) to deploy the serverless function
+
+## Set up
+
+Before we start, make sure you have the following Vercel CLI installed in your machine and login.
+
+```bash
+npm i -g vercel
+vercel login
+```
+
+To accelerate the development, we will use the template [Flask + Vercel](https://github.com/vercel/examples/tree/main/python/flask)
+It has all the boilerplate code to deploy a Flask app to Vercel. However, the CLI does not support this template yet, so we need to copy/paste it manually.
+
+Also, create a file named `data/pi.txt` under the root directory and store just **decimal digits** of π in it.
+Now, the folder structure should look like this:
+
+```text
+/
+├── api/
+│   └── index.py
+├── data/
+│   └── pi.txt
+├── .gitignore
+├── requirements.txt
+└── vercel.json
+```
+
+## The API endpoint
+
+The API endpoint is `/find/<digits>`, where `<digits>` is the sequence of digits we want to find in π.
+For example, if we want to find `123` in π, we can send a GET request to `/find/123`.
+The API will return a JSON object with the following information:
+
+- `positions`: The positions of `number` in π
+- `before`: The sequence of digits in π before `number`
+- `between`: The sequence of digits we want to find in π
+- `after`: The sequence of digits in π after `number`
+
+## Implementation
+
+The implementation is pretty straightforward. We need to read the file `data/pi.txt` and store all digits in the memory.
+For the API route, we can use the `find` method of the string to find the positions of `number` in π.
+Finally, we can return the JSON object with the information we need.
+
+```python title="api/index.py"
+from flask import Flask, Response
+from os.path import join
+
+app = Flask(__name__)
+
+# Read the digits of pi from the file before the server starts
+def preload():
+  with open(join('data', 'pi.txt'), 'r') as f:
+    return f.read()
+
+data = preload()
+length = len(data)
+RANGE = 5
+
+@app.route("/find/<digits>", method=['GET'])
+def pi_peek(digits: str):
+  # Check all characters is digit
+  for c in digits:
+    if not c.isdigit():
+      return Response(f'Input must be a string of numbers', 400)
+
+  # Find index of digits
+  index = data.find(digits)
+  if (index < 0):
+    return {
+      'length': length,
+      'before': '',
+      'between': '',
+      'after': f'3.{data[:10]}...'
+    }
+
+  # Get before and after
+  beforeStart = max(index - RANGE, 0)
+  before = data[beforeStart: index]
+  if beforeStart > 0:
+    before = f'...{before}'
+  else:
+    before = f'3.{before}'
+  afterStart = min(index + len(digits), length)
+  afterEnd = min(afterStart + RANGE, length)
+  after = f'{data[afterStart: afterEnd]}...'
+
+  return {
+    'length': length,
+    'index': index,
+    'before': before,
+    'between': digits,
+    'after': after
+  }
+```
+
+## Deployment
+
+To deploy the API, we can use the Vercel CLI. First, we need to log in to Vercel with `vercel login`.
+Then, we can deploy the API with `vercel --prod`. Now, you can call the API with the URL provided by Vercel, with
+the endpoint `<assigned>.vercel.app/find/<digits>`, where `<assigned>` is the assigned name of your project by Vercel.
+
+For example, if the assigned name is `pi-peek`, we can call the API with `https://pi-peek.vercel.app/find/123`.
+And here the result in JSON
+
+```json
+{
+  "after": "71378...",
+  "before": "...45047",
+  "between": "123",
+  "index": 1923,
+  "length": 10000000
+}
+```
+
+That's it! We have built a quick API to find digits in π.
+You can find the full source code in [GitHub](https://github.com/viethung7899/pi-peek).
