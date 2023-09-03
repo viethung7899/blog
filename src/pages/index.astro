@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 
 const posts = await getCollection('posts').then((result) => {
   result.sort((a, b) => +b.data.date - +a.data.date);
-  return result.slice(0, 3);
+  return result.slice(0, 2);
 });
 
 const title = "Viet-Hung Nguyen's Blog";
