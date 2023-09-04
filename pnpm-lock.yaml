@@ -35,6 +35,9 @@ dependencies:
   katex:
     specifier: ^0.16.8
     version: 0.16.8
+  lucide-svelte:
+    specifier: 0.275.0-beta.0
+    version: 0.275.0-beta.0(svelte@4.2.0)
   p5-svelte:
     specifier: ^3.1.2
     version: 3.1.2(@types/p5@1.7.0)(p5@1.7.0)
@@ -2484,6 +2487,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: false
+
+  /lucide-svelte@0.275.0-beta.0(svelte@4.2.0):
+    resolution: {integrity: sha512-WnlhoUcbDFXAaWYOW08DQf3Uo14+/j8lNKam3SRWl3l0yvM66OsUkhm7/j7CGx0NUZE/FTAK1XdI8T+X+qAokQ==}
+    peerDependencies:
+      svelte: '>=3 <5'
+    dependencies:
+      svelte: 4.2.0
     dev: false
 
   /magic-string@0.30.3:

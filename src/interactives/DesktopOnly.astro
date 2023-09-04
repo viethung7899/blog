@@ -8,7 +8,7 @@
   elements.forEach((element) => element.classList.remove('hidden'));
 </script>
 
-<div class="alert hidden" mobile-message>
+<div class="alert hidden my-4" mobile-message>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -20,12 +20,11 @@
     stroke-linecap="round"
     stroke-linejoin="round"
     class="lucide lucide-monitor"
-    ><rect width="20" height="14" x="2" y="3" rx="2"></rect><line
-      x1="8"
-      x2="16"
-      y1="21"
-      y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg
-  >This visualization is only for desktop browsers
+  >
+    <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+    <line x1="8" x2="16" y1="21" y2="21"></line>
+    <line x1="12" x2="12" y1="17" y2="21"></line>
+  </svg>This visualization is only for desktop browsers
 </div>
 <div desktop-only class="hidden">
   <slot />
