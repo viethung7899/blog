@@ -33,6 +33,16 @@ export const h3 = ({ children, ...props }: ComponentProps<"h3">) => {
   )
 }
 
+export const a = ({ children, ...props }: ComponentProps<"a">) => {
+  return (
+    <a {...props} className="font-semibold text-base-content link link-hover hover:link-accent">
+      {children}
+    </a>
+  )
+}
+
+
+
 export const p = ({ children, ...props }: ComponentProps<"p">) => {
   return (
     <p {...props} className="text-base-content/80 leading-7 [&:not(:first-child)]:mt-6">
@@ -58,5 +68,5 @@ export const ol = ({ children, ...props }: ComponentProps<"ol">) => {
 }
 
 export const code = (props: ComponentProps<"code">) => {
-  return <code {...props} className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold" />
+  return <code {...props} className="relative rounded bg-base-300 px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold" />
 }

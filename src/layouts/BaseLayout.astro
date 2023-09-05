@@ -1,7 +1,6 @@
 ---
 import Header from "@/components/site/Header.astro"
 import Footer from "@/components/site/Footer.astro"
-import { ViewTransitions } from 'astro:transitions'
 
 import "@/styles/global.css"
 ---
@@ -14,7 +13,6 @@ import "@/styles/global.css"
     <meta name="generator" content={Astro.generator} />
     <slot name="seo" />
     <script is:inline src="/theme.js" />
-    <ViewTransitions />
   </head>
   <body class="flex flex-col min-h-screen">
     <Header />
