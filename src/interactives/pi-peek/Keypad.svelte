@@ -20,7 +20,8 @@
     on:click={() => {
       if (value) value = value.slice(0, -1);
     }}
-    ><svg
+  >
+    <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -30,7 +31,6 @@
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="lucide lucide-delete"
       ><path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z" /><line
         x1="18"
         x2="12"
