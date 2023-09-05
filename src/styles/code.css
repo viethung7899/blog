@@ -1,0 +1,15 @@
+pre {
+  @apply p-2 join-item border bg-transparent rounded-md;
+}
+
+.astro-code-title ~ pre {
+  @apply rounded-tl-none;
+}
+
+:root[data-theme="dark"] pre.light-plus {
+  @apply hidden;
+}
+
+:root[data-theme="light"] pre.one-dark-pro {
+  @apply hidden;
+}

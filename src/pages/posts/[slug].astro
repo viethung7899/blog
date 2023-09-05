@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { InferGetStaticParamsType } from "astro";
 import { getCollection, getEntry } from "astro:content";
-import typography from '@/components/typography'
+import markdown from '@/components/markdown'
 import {SEO} from "astro-seo"
 
 export async function getStaticPaths() {
@@ -28,12 +28,14 @@ const {Content} = await post.render()
 ---
 
 <BaseLayout>
-  <SEO slot="seo" {title} {description} />
+  <Fragment slot="seo">
+    <SEO {title} {description} />
+  </Fragment>
   <section class="container my-8 space-y-4">
     <h1 class="font-semibold text-3xl">{title}</h1>
     <p>{formatter.format(date)}</p>
   </section>
   <article class="container mb-16">
-    <Content components={typography} />
+    <Content components={markdown} />
   </article>
 </BaseLayout>
