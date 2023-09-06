@@ -16,24 +16,36 @@ type Params = InferGetStaticParamsType<typeof getStaticPaths>
 const { slug } = Astro.params as Params
 const post = await getEntry("posts", slug)
 
-const {title, date, description} = post.data
-const formatter = new Intl.DateTimeFormat("en", {
+const {title, date, description, tags} = post.data
+const formattedDate = new Intl.DateTimeFormat("en", {
   year: "numeric",
   month: "long",
   day: "numeric",
   timeZone: "utc"
-})
+}).format(date)
 
 const {Content} = await post.render()
 ---
 
 <BaseLayout>
   <Fragment slot="seo">
-    <SEO {title} {description} />
+    <SEO {title} {description} openGraph={{
+      basic: {
+        title,
+        type: "article",
+        image: `${Astro.url}/og.png`,
+        url: Astro.url.href
+      },
+      article: {
+        publishedTime: formattedDate,
+        tags
+      },
+    }} 
+    canonical={Astro.url} />
   </Fragment>
   <section class="container my-8 space-y-4">
     <h1 class="font-semibold text-3xl">{title}</h1>
-    <p>{formatter.format(date)}</p>
+    <p>{formattedDate}</p>
   </section>
   <article class="container mb-16">
     <Content components={markdown} />

@@ -15,7 +15,14 @@ const description =
 ---
 
 <BaseLayout>
-  <SEO slot="seo" {title} {description} />
+  <SEO slot="seo" {title} {description} openGraph={{
+    basic: {
+      title,
+      image: `${Astro.url}/og.png`,
+      type: "website",
+      url: Astro.url.href
+    }
+  }} canonical={Astro.url} />
   <section class="container my-8 space-y-4">
     <h1 class="text-2xl sm:text-4xl font-semibold">Welcome to my blog 🎇</h1>
     <p class="text-foreground/60 [text-wrap:balance]">{description}</p>

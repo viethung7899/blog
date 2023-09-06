@@ -1,9 +1,9 @@
+import Card from "@/components/og/Card.svelte"
+import { Resvg } from "@resvg/resvg-js"
 import type { APIContext } from "astro"
 import { getCollection, type CollectionEntry } from "astro:content"
 import satori, { type Font } from "satori"
 import { html } from "satori-html"
-import { Resvg } from "@resvg/resvg-js"
-import Card from "@/components/og/Card.svelte"
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts")
@@ -65,11 +65,11 @@ export async function GET({ props }: APIContext) {
   const tags = data.tags?.map((tag) => `#${tag}`) || []
 
   // @ts-ignore
-  const render = Card.render({data})
+  const render = Card.render({ data })
   const markup = html(render.html)
 
   const fonts = await getFonts()
-  
+
   // @ts-ignore
   const svg = await satori(markup, {
     ...DIMENSIONS,
