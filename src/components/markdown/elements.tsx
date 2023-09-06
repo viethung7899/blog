@@ -1,22 +1,10 @@
 import type { ComponentProps } from "react"
 
-const Link = (props: ComponentProps<"svg">) => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <line x1="4" x2="20" y1="9" y2="9" />
-      <line x1="4" x2="20" y1="15" y2="15" />
-      <line x1="10" x2="8" y1="3" y2="21" />
-      <line x1="16" x2="14" y1="3" y2="21" />
-    </svg>
-  )
-}
-
 export const h2 = ({ children, ...props }: ComponentProps<"h2">) => {
   return (
-    <h2 {...props} className="group flex items-center scroll-m-16 border-b mt-2 pt-4 pb-2 text-2xl font-semibold tracking-tight transition-colors">
-      {children}
-      <a className="hidden group-hover:block hover:text-accent" href={`#${props.id}`}>
-        <Link className="h-5 w-5 ml-1" />
+    <h2 {...props} className="group relative scroll-m-16 border-b mt-2 pt-4 pb-2 text-2xl font-semibold tracking-tight">
+      <a className="before:content-['#'] before:absolute before:right-full before:pr-2 before:hidden md:group-hover:before:block before:opacity-50" href={`#${props.id}`}>
+        {children}
       </a>
     </h2>
   )
@@ -24,10 +12,9 @@ export const h2 = ({ children, ...props }: ComponentProps<"h2">) => {
 
 export const h3 = ({ children, ...props }: ComponentProps<"h3">) => {
   return (
-    <h3 {...props} className="group flex items-center scroll-m-16 border-b mt-2 pt-4 pb-2 text-xl font-semibold tracking-tight transition-colors">
-      {children}
-      <a className="hidden group-hover:block hover:text-accent" href={`#${props.id}`}>
-        <Link className="h-4 w-4 ml-1" />
+    <h3 {...props} className="group relative scroll-m-16 border-b mt-2 pt-4 pb-2 text-xl font-semibold tracking-tight">
+      <a className="before:content-['#'] before:absolute before:right-full before:pr-2 before:hidden md:group-hover:before:block before:opacity-50" href={`#${props.id}`}>
+        {children}
       </a>
     </h3>
   )
