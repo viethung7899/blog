@@ -33,15 +33,14 @@ const {Content} = await post.render()
       basic: {
         title,
         type: "article",
-        image: `${Astro.url}/og.png`,
-        url: Astro.url.href
+        image: `${Astro.site}/${Astro.url.pathname}/og.png`,
+        url: Astro.site
       },
       article: {
         publishedTime: formattedDate,
         tags
       },
-    }} 
-    canonical={Astro.url} />
+    }} />
   </Fragment>
   <section class="container my-8 space-y-4">
     <h1 class="font-semibold text-3xl">{title}</h1>

@@ -20,11 +20,11 @@ const title = "All posts"
     openGraph={{
       basic: {
         title,
-        image: `${Astro.url.href}/og.png`,
+        image: `${Astro.site}/og.png`,
         type: "website",
-        url: Astro.url.href
+        url: Astro.site
       }
-    }} canonical={Astro.url}
+    }}
   />
   <section class="container my-8 flex flex-col gap-8">
     <h1 class="text-2xl sm:text-3xl font-semibold">{title}</h1>
