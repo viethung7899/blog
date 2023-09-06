@@ -25,6 +25,8 @@ const formattedDate = new Intl.DateTimeFormat("en", {
 }).format(date)
 
 const {Content} = await post.render()
+const currentLink = new URL(Astro.url.pathname, Astro.site)
+const image = new URL("og.png", currentLink).toString()
 ---
 
 <BaseLayout>
@@ -33,7 +35,7 @@ const {Content} = await post.render()
       basic: {
         title,
         type: "article",
-        image: `${Astro.site}/${Astro.url.pathname}/og.png`,
+        image,
         url: Astro.site
       },
       article: {
