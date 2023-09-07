@@ -1,0 +1,203 @@
+---
+title: Generate OG images statically from the post content
+date: 2023-09-01
+thumbnail: posts/pi
+tags: [astro, satori]
+description: Use Satori and Astro static endpoints to generate OG images from the blog content
+---
+
+When you share a link to any social platforms (such as Twitter or Facebook),
+viewers can see a preview card with a thumbnail image and few relavent information.
+That thumbnail image is called an **Open Graph image**, or OG image for short.
+
+In this tutorial, I will show you my approach to generate OG images from the blog post content from my Astro blog.
+
+## Ingredients
+
+Since this blog is written in Astro and all blogs is statically generated, we want all the OG iamges to be generated in build time (i.e. static generation).
+Here are all the ingredients we need:
+
+- [Satori](https://github.com/vercel/satori) by Vercel is a powerful tool to generate images from HTML templates and CSS styles.
+- [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) featured in Astro v2 is a tools to managing tool, such as blog posts, in Astro.
+  We will use it to generate a list of blog posts.
+- [Astro endpoints](https://docs.astro.build/en/core-concepts/endpoints/) allows us to create endpoints that serve any types of data other than HTML pages.
+  In this case, we need to create PNG images.
+
+Also, I have an image below and save it as `og-background.png` in the `public` directory. This will be the background image for the OG image.
+
+![Background image for OG image with color gradient and noise texture](/og-background.png)
+
+## Setup
+
+First, we need to install these packages as develper dependencies (I use `pnpm` as my package manager, but you can use `npm` or `yarn`):
+
+```bash
+pnpm add -D satori satori-html @resvg/resvg-js
+```
+
+- `satori` is the main package to generate SVG images from HTML templates and CSS styles.
+- `satori-html` is a plugin for `satori` to use html string literals.
+- `@resvg/resvg-js` is for converting SVG to PNG images.
+
+**Note:** For the `@resvg/resvg-js` package to run properly with Astro, we need to update the Astro configuration file
+
+```js title="astro.config.mjs"
+export default {
+  // ...
+  vite: {
+    // ...
+    optimizeDeps: {
+      exclude: ['@resvg/resvg-js'],
+    },
+  },
+};
+```
+
+## Image generation
+
+Overall, the image generation process is as follows:
+
+1. Load the data
+2. Create HTML template
+3. Convert HTML template to OG image
+
+To start off, we need a route to serve the OG image.
+In my case, I want to host these images inside the blog post route, the route name would be `/posts/[slug]/og.png`.
+So, we need to create a file `posts/[slug]/og.png.ts` under the `pages` directory with these two functions.
+Also, the path contains dynamic parameters, so we need to export `getStaticPaths` function to generate the list of paths.
+
+```js title="posts/[slug]/og.png"
+export async function getStaticPaths() {
+  // Load the resources
+}
+
+export async function GET({ props }: APIContext) {
+  // Load the resource
+  // Create HTML template
+  // Convert HTML template to OG image
+}
+```
+
+### Load the resource
+
+We utilize the Astro Content Collections API to load the blog post data.
+We generate the list of paths from post collection, and pass the metadata as props to the `GET` function.
+
+```ts
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: {
+      data: post.data,
+    },
+  }));
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+export async function GET({ props }: APIContext) {
+  // Load the resource
+  const { data } = props as Props;
+
+  // More steps...
+}
+```
+
+### Create HTML template
+
+The next step using `satori-html` package to create the markup with semi-friendly HTML template literal syntax.
+Luckily, we can use [Tailwind CSS](https://tailwindcss.com/) to quickly style the markup with the `tw` attribute supported by satori.
+
+```ts
+import { html } from 'satori-html';
+
+// ...
+
+export async function GET({ props, url }: APIContext) {
+  const { data } = props as Props;
+  const date = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(data.date);
+  const tags = data.tags?.map((tag) => `#${tag}`) || [];
+
+  // Get the background image as the absolute URL
+  const backgroundURL = new URL('og-background.png', url.origin);
+
+  const markup = html` <div
+    tw="w-full h-full flex flex-col justify-between p-16 text-white"
+    style="background: url('${backgroundURL}')"
+  >
+    <div tw="text-4xl font-bold text-teal-400">${logo}</div>
+    <div tw="flex flex-col">
+      <div tw="text-4xl font-semibold">${data.title}</div>
+      <p tw="text-xl opacity-80">${[date, ...tags].join(' · ')}</p>
+    </div>
+  </div>`;
+
+  // More code...
+}
+```
+
+### Convert HTML to OG image
+
+The last step is very simple, we just need to convert the SVG to PNG image.
+Unfortunately, the Satori requires the font buffers. There are two ways to do this:
+
+- Load the font files from the file system (using Node.js `fs`)
+- Load the font files from the web (using `fetch`)
+
+In my case, I choose the latter options becuase I don't want to bundle the font files in the build.
+
+```ts
+const regularFont = await fetch(
+  'https://fonts.cdnfonts.com/s/19795/Inter-Regular.woff',
+).then((res) => res.arrayBuffer());
+// Similar fetch for other fonts
+const semiboldFont = await ...
+const boldFont = await ...
+
+const fonts = [
+  { name: 'Inter', weight: '400', data: regularFont },
+  { name: 'Inter', weight: '600', data: semiboldFont },
+  { name: 'Inter', weight: '700', data: boldFont },
+];
+```
+
+In the end, we want our image has the size of 1200 &times; 630 pixels.
+
+```ts
+const DIMENSIONS = {
+  width: 1200,
+  height: 630,
+};
+
+// @ts-ignore
+const svg = await satori(markup, {
+  ...DIMENSIONS,
+  fonts,
+});
+
+const image = new Resvg(svg, {
+  fitTo: {
+    mode: 'width',
+    value: DIMENSIONS.width,
+  },
+});
+
+return new Response(image.render().asPng(), {
+  headers: {
+    'Content-Type': 'image/png',
+  },
+});
+```
+
+## Result
+
+Voilà! We successfully generated the OG image from the blog post content.
+Here is an example of generated image from this post.
+
+![Generated image with black background](/posts/20230901-dynamically-generate-og-image/og.png)
