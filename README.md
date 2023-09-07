@@ -1,33 +1,16 @@
-# Astro Starter Kit: Minimal
+# [Blog](https://blog.vhng.dev)
 
-```
-npm create astro@latest -- --template minimal
-```
+Welcome to my blog. This is my place to share my coding journey, small web experiences,
+and other programming topics.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## 💻 Technology
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+[![Built with Astro](https://astro.badg.es/v1/built-with-astro/medium.svg)](https://astro.build)
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
+- [TailwindCSS](https://tailwindcss.com) and [DaisyUI](https://daisyui.com) for styling
+- [Svelte](https://svelte.dev) for most of interactive widgets
+- [Satori](https://github.com/vercel/satori) for OpenGraph image generation
+- [Vercel](https://vercel.com) for deployment
 
 ## 🧞 Commands
 
@@ -42,6 +25,7 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+## ✨ Wishlist
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [ ] Storage for post metadata (e.g. view count, like count)
+- [x] Analytics
