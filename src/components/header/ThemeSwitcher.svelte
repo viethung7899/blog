@@ -8,14 +8,14 @@
     },
   });
 
-  const themes = ['light', 'dark', 'system'] as const;
+  const themes = ['light', 'night', 'system'] as const;
   const setTheme = (theme: (typeof themes)[number]) => {
     if (theme === 'system') {
       localStorage.removeItem('theme');
       document.documentElement.setAttribute(
         'data-theme',
         window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
+          ? 'night'
           : 'light',
       );
     } else {

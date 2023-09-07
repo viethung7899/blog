@@ -2,7 +2,7 @@ let theme = 'system';
 if (typeof localStorage !== 'undefined') {
   const localTheme = localStorage.getItem('theme');
   if (localTheme === 'light') theme = 'light';
-  if (localTheme === 'dark') theme = 'dark';
+  if (localTheme === 'night') theme = 'night';
   if (theme === 'system') localStorage.removeItem('theme');
 }
 
@@ -10,7 +10,7 @@ if (theme == 'system') {
   document.documentElement.setAttribute(
     'data-theme',
     window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
+      ? 'night'
       : 'light',
   );
 } else {
@@ -23,6 +23,6 @@ darkQuery.addEventListener('change', (e) => {
   if ('theme' in localStorage) return;
   document.documentElement.setAttribute(
     'data-theme',
-    e.matches ? 'dark' : 'light',
+    e.matches ? 'night' : 'light',
   );
 });
