@@ -6,10 +6,10 @@ pre {
   @apply rounded-tl-none;
 }
 
-:root[data-theme="dark"] pre.light-plus {
-  @apply hidden;
+pre.light-plus {
+  @apply dark:hidden;
 }
 
-:root[data-theme="light"] pre.one-dark-pro {
-  @apply hidden;
+pre.one-dark-pro {
+  @apply hidden dark:block;
 }

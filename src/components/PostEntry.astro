@@ -16,7 +16,7 @@ const formatter = new Intl.DateTimeFormat('en', {
 ---
 
 <li class="flex flex-col group relative z-10">
-  <a href={`/posts/${entry.slug}`} class="link link-hover hover:link-accent">
+  <a href={`/posts/${entry.slug}`} class="link link-hover hover:link-primary">
     <h3 class="font-semibold text-lg">{title}</h3>
   </a>
   <small class="text-base-content/60">{formatter.format(date)}</small>
@@ -25,7 +25,7 @@ const formatter = new Intl.DateTimeFormat('en', {
     tags ? (
       <div class="flex gap-1 mt-2">
         {tags.map((tag) => (
-          <div class="badge badge-sm badge-accent">{tag}</div>
+          <div class="badge badge-sm badge-primary">{tag}</div>
         ))}
       </div>
     ) : null
