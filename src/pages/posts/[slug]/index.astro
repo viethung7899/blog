@@ -44,9 +44,12 @@ const image = new URL("og.png", currentLink).toString()
       },
     }} />
   </Fragment>
-  <section class="container my-8 space-y-4">
+  <section class="container py-8 mb-8 space-y-4 border-b">
     <h1 class="font-semibold text-3xl">{title}</h1>
-    <p>{formattedDate}</p>
+    <span>{formattedDate}</span>
+    {tags ? <ul class="flex gap-2">
+      {tags.map(tag => <li class="badge badge-primary">{tag}</li>)}
+    </ul> : undefined}
   </section>
   <article class="container mb-16">
     <Content components={markdown} />
