@@ -1,6 +1,7 @@
 import { Resvg } from "@resvg/resvg-js"
 import type { APIContext, InferGetStaticPropsType } from "astro"
 import { getCollection } from "astro:content"
+import { readFileSync } from "fs"
 import satori, { type Font } from "satori"
 import { html } from "satori-html"
 
@@ -13,6 +14,8 @@ export async function getStaticPaths() {
     },
   }))
 }
+
+const imageBase64 = Buffer.from(readFileSync("src/assets/og-background.png")).toString("base64")
 
 async function getFonts() {
   const regular = await fetch("https://fonts.cdnfonts.com/s/19795/Inter-Regular.woff").then((res) =>
@@ -51,7 +54,7 @@ const DIMENSIONS = {
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-export async function GET({ props, url }: APIContext) {
+export async function GET({ props }: APIContext) {
   const { data } = props as Props
 
   const date = new Intl.DateTimeFormat("en-US", {
@@ -62,12 +65,9 @@ export async function GET({ props, url }: APIContext) {
   }).format(data.date)
   const tags = data.tags?.map((tag) => `#${tag}`) || []
 
-  const backgroundURL = new URL("og-background.png", url.origin)
-
   const markup = html`
   <div tw="w-full h-full flex flex-col justify-between p-16 text-white"
-    style="background: url('${backgroundURL}')"
-  >
+    style="background: url('data:image/png;base64,${imageBase64}')">
     <div tw="text-4xl font-bold" style="color: #1fb2a6;">V_</div>
     <div tw="flex flex-col">
       <div tw="text-4xl font-semibold">${data.title}</div>
