@@ -1,24 +1,19 @@
 <script>
-  export let value = '';
-  const select = (num) => () => (value += num);
-  const NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  export let value = ""
+  const select = (num) => () => (value += num)
+  const NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 </script>
 
 <div class="grid grid-cols-3 gap-2 keypad self-center">
   {#each NUMS as num}
-    <button class="btn btn-circle btn-ghost btn-lg" on:click={select(num)}
-      >{num}</button
-    >
+    <button class="btn btn-circle btn-ghost btn-lg" on:click={select(num)}>{num}</button>
   {/each}
-  <button
-    class="btn btn-circle btn-ghost btn-lg col-start-2"
-    on:click={select(0)}>0</button
-  >
+  <button class="btn btn-circle btn-ghost btn-lg col-start-2" on:click={select(0)}>0</button>
   <!-- Delete -->
   <button
     class="btn btn-circle btn-ghost btn-lg"
     on:click={() => {
-      if (value) value = value.slice(0, -1);
+      if (value) value = value.slice(0, -1)
     }}
   >
     <svg

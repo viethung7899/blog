@@ -1,13 +1,13 @@
 ---
-import PostEntry from '@/components/PostEntry.astro';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import { SEO } from 'astro-seo';
-import { getCollection } from 'astro:content';
+import PostEntry from "@/components/PostEntry.astro"
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import { SEO } from "astro-seo"
+import { getCollection } from "astro:content"
 
-const posts = await getCollection('posts').then((result) => {
-  result.sort((a, b) => +b.data.date - +a.data.date);
-  return result;
-});
+const posts = await getCollection("posts").then((result) => {
+  result.sort((a, b) => +b.data.date - +a.data.date)
+  return result
+})
 
 const title = "All posts"
 ---
@@ -22,8 +22,8 @@ const title = "All posts"
         title,
         image: `${Astro.site}/og.png`,
         type: "website",
-        url: Astro.site
-      }
+        url: Astro.site,
+      },
     }}
   />
   <section class="container my-8 flex flex-col gap-8">

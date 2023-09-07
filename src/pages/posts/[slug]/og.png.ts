@@ -52,7 +52,7 @@ const DIMENSIONS = {
   height: 630,
 }
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
 export async function GET({ props }: APIContext) {
   const { data } = props as Props
@@ -66,14 +66,16 @@ export async function GET({ props }: APIContext) {
   const tags = data.tags?.map((tag) => `#${tag}`) || []
 
   const markup = html`
-  <div tw="w-full h-full flex flex-col justify-between p-16 text-white"
-    style="background: url('data:image/png;base64,${imageBase64}')">
-    <div tw="text-4xl font-bold" style="color: #1fb2a6;">V_</div>
-    <div tw="flex flex-col">
-      <div tw="text-4xl font-semibold">${data.title}</div>
-      <p tw="text-xl opacity-80">${[date, ...tags].join(' · ')}</p>
+    <div
+      tw="w-full h-full flex flex-col justify-between p-16 text-white"
+      style="background: url('data:image/png;base64,${imageBase64}')"
+    >
+      <div tw="text-4xl font-bold" style="color: #1fb2a6;">V_</div>
+      <div tw="flex flex-col">
+        <div tw="text-4xl font-semibold">${data.title}</div>
+        <p tw="text-xl opacity-80">${[date, ...tags].join(" · ")}</p>
+      </div>
     </div>
-  </div>
   `
 
   const fonts = await getFonts()

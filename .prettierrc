@@ -4,5 +4,5 @@
   "singleQuote": false,
   "tabWidth": 2,
   "useTabs": false,
-  "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"]
+  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-svelte", "prettier-plugin-astro"]
 }

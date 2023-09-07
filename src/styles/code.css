@@ -1,5 +1,5 @@
 .astro-code-block pre {
-  @apply p-2 join-item border bg-transparent rounded-md;
+  @apply join-item rounded-md border bg-transparent p-2;
 }
 
 .astro-code-title ~ pre {
@@ -26,7 +26,7 @@
   counter-increment: line;
   content: counter(line);
   width: 3ch;
-  @apply inline-block mr-2 opacity-80 text-right;
+  @apply mr-2 inline-block text-right opacity-80;
 }
 
 .astro-code-block.isTerminal span.line::before {

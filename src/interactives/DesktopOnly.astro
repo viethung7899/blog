@@ -1,11 +1,7 @@
 <script>
-  const isMobile =
-    navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i) !==
-    null;
-  const elements = document.querySelectorAll(
-    isMobile ? '[mobile-message]' : '[desktop-only]',
-  );
-  elements.forEach((element) => element.classList.remove('hidden'));
+  const isMobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i) !== null
+  const elements = document.querySelectorAll(isMobile ? "[mobile-message]" : "[desktop-only]")
+  elements.forEach((element) => element.classList.remove("hidden"))
 </script>
 
 <div class="alert hidden my-4" mobile-message>

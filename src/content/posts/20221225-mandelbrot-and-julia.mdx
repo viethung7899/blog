@@ -14,12 +14,12 @@ interactive: true
   crossorigin="anonymous"
 />
 
-import DesktopOnly from '@/interactives/DesktopOnly.astro';
-import Mandelbrot from '@/interactives/mandelbrot/Mandelbrot.svelte';
-import Julia from '@/interactives/mandelbrot/Julia.svelte';
+import DesktopOnly from "@/interactives/DesktopOnly.astro"
+import Mandelbrot from "@/interactives/mandelbrot/Mandelbrot.svelte"
+import Julia from "@/interactives/mandelbrot/Julia.svelte"
 
 <DesktopOnly>
-  <div class="bg-base-300 p-4 rounded-md">
+  <div class="rounded-md bg-base-300 p-4">
     <Mandelbrot client:visible />
   </div>
 </DesktopOnly>
@@ -62,7 +62,7 @@ If the series _diverges to infinity_, then the point $$c$$ is **not** in the Man
 ## Bonus: The Julia Set
 
 <DesktopOnly>
-  <div class="bg-base-300 p-4 rounded-md">
+  <div class="rounded-md bg-base-300 p-4">
     <Julia client:visible />
   </div>
 </DesktopOnly>

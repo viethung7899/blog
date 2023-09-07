@@ -43,10 +43,10 @@ export default {
   vite: {
     // ...
     optimizeDeps: {
-      exclude: ['@resvg/resvg-js'],
+      exclude: ["@resvg/resvg-js"],
     },
   },
-};
+}
 ```
 
 ## Image generation
@@ -81,20 +81,20 @@ We generate the list of paths from post collection, and pass the metadata as pro
 
 ```ts
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
+  const posts = await getCollection("posts")
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: {
       data: post.data,
     },
-  }));
+  }))
 }
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
 export async function GET({ props }: APIContext) {
   // Load the resource
-  const { data } = props as Props;
+  const { data } = props as Props
 
   // More steps...
 }
@@ -106,32 +106,30 @@ The next step using `satori-html` package to create the markup with semi-friendl
 Luckily, we can use [Tailwind CSS](https://tailwindcss.com/) to quickly style the markup with the `tw` attribute supported by satori.
 
 ```ts
-import { html } from 'satori-html';
+import { html } from "satori-html"
 
 // ...
 
 export async function GET({ props }: APIContext) {
-  const { data } = props as Props;
-  const date = new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  }).format(data.date);
-  const tags = data.tags?.map((tag) => `#${tag}`) || [];
+  const { data } = props as Props
+  const date = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(data.date)
+  const tags = data.tags?.map((tag) => `#${tag}`) || []
 
   // Get the background image as the absolute URL
-  const backgroundURL = new URL('og-background.png', url.origin);
+  const backgroundURL = new URL("og-background.png", url.origin)
 
-  const markup = html` <div
-    tw="w-full h-full flex flex-col justify-between p-16 text-white"
-  >
+  const markup = html` <div tw="w-full h-full flex flex-col justify-between p-16 text-white">
     <div tw="text-4xl font-bold text-teal-400">${logo}</div>
     <div tw="flex flex-col">
       <div tw="text-4xl font-semibold">${data.title}</div>
-      <p tw="text-xl opacity-80">${[date, ...tags].join(' · ')}</p>
+      <p tw="text-xl opacity-80">${[date, ...tags].join(" · ")}</p>
     </div>
-  </div>`;
+  </div>`
 
   // More code...
 }
@@ -149,17 +147,15 @@ Let's use this image below for the background and save it as `og-background.png`
 Here is the code to convert the image to base64 string.
 
 ```ts
-import { readFileSync } from 'fs';
+import { readFileSync } from "fs"
 
-const imageBase64 = Buffer.from(
-  readFileSync('src/assets/background.png'),
-).toString('base64');
+const imageBase64 = Buffer.from(readFileSync("src/assets/background.png")).toString("base64")
 ```
 
 Now, let's add the background image to the markup
 
 ```ts
-import { html } from 'satori-html';
+import { html } from "satori-html"
 
 // ...
 
@@ -173,9 +169,9 @@ export async function GET({ props }: APIContext) {
     <div tw="text-4xl font-bold text-teal-400">${logo}</div>
     <div tw="flex flex-col">
       <div tw="text-4xl font-semibold">${data.title}</div>
-      <p tw="text-xl opacity-80">${[date, ...tags].join(' · ')}</p>
+      <p tw="text-xl opacity-80">${[date, ...tags].join(" · ")}</p>
     </div>
-  </div>`;
+  </div>`
 
   // More code...
 }
@@ -212,26 +208,26 @@ In the end, we want our image has the size of 1200 &times; 630 pixels.
 const DIMENSIONS = {
   width: 1200,
   height: 630,
-};
+}
 
 // @ts-ignore
 const svg = await satori(markup, {
   ...DIMENSIONS,
   fonts,
-});
+})
 
 const image = new Resvg(svg, {
   fitTo: {
-    mode: 'width',
+    mode: "width",
     value: DIMENSIONS.width,
   },
-});
+})
 
 return new Response(image.render().asPng(), {
   headers: {
-    'Content-Type': 'image/png',
+    "Content-Type": "image/png",
   },
-});
+})
 ```
 
 ## Result

@@ -1,16 +1,15 @@
 <script lang="ts">
-  import { algorithms, type Algorithm } from "../lib";
-  export let count = 25;
-  export let algorithm: Algorithm = "Quicksort";
-  export let disabled = false;
+  import { algorithms, type Algorithm } from "../lib"
+  export let count = 25
+  export let algorithm: Algorithm = "Quicksort"
+  export let disabled = false
 
   const speeds = [
     { name: "Slow", value: 250 },
     { name: "Fast", value: 100 },
     { name: "Very Fast", value: 40 },
   ]
-  export let speed = speeds[0].value;
-
+  export let speed = speeds[0].value
 </script>
 
 <div class="mb-4 grid sm:grid-cols-2 gap-4 items-center">
@@ -25,15 +24,10 @@
     step="1"
     bind:value={count}
     class="range"
-    disabled={disabled}
+    {disabled}
   />
   <label for="algos" class="flex">Sorting algorithm</label>
-  <select
-    id="algos"
-    disabled={disabled}
-    bind:value={algorithm}
-    class="select select-ghost select-bordered"
-  >
+  <select id="algos" {disabled} bind:value={algorithm} class="select select-ghost select-bordered">
     {#each Object.keys(algorithms) as name}
       <option value={name}>{name}</option>
     {/each}

@@ -1,24 +1,24 @@
 ---
-import { Code } from 'astro:components';
-import type { Lang } from 'shiki';
-import { processMeta } from './processMeta';
+import { Code } from "astro:components"
+import type { Lang } from "shiki"
+import { processMeta } from "./processMeta"
 
 interface Props {
-  raw: string;
-  lang?: Lang;
-  meta?: string;
+  raw: string
+  lang?: Lang
+  meta?: string
 }
 
-const { raw, lang, meta } = Astro.props;
-const isTerminal = lang === 'bash';
-const { title, showLineNumbers } = processMeta(meta || '');
+const { raw, lang, meta } = Astro.props
+const isTerminal = lang === "bash"
+const { title, showLineNumbers } = processMeta(meta || "")
 
-import '@/styles/code.css';
+import "@/styles/code.css"
 ---
 
 <div
   class:list={[
-    'astro-code-block flex flex-col mt-4 text-sm',
+    "astro-code-block flex flex-col mt-4 text-sm",
     { showLineNumbers: showLineNumbers && !isTerminal, isTerminal },
   ]}
 >

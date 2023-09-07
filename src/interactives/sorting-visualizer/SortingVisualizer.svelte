@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Controller from "./components/Controller.svelte";
+  import Controller from "./components/Controller.svelte"
   import {
     algorithms,
     type Item,

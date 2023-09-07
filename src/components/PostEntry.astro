@@ -1,18 +1,18 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { CollectionEntry } from "astro:content"
 interface Props {
-  entry: CollectionEntry<'posts'>;
+  entry: CollectionEntry<"posts">
 }
 
-const entry = Astro.props.entry;
-const { title, date, description, tags } = entry.data;
+const entry = Astro.props.entry
+const { title, date, description, tags } = entry.data
 
-const formatter = new Intl.DateTimeFormat('en', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'utc',
-});
+const formatter = new Intl.DateTimeFormat("en", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  timeZone: "utc",
+})
 ---
 
 <li class="flex flex-col group relative z-10">

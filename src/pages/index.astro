@@ -1,18 +1,18 @@
 ---
-import PostEntry from '@/components/PostEntry.astro';
-import { GITHUB_LINK } from '@/constants';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import { SEO } from 'astro-seo';
-import { getCollection } from 'astro:content';
+import PostEntry from "@/components/PostEntry.astro"
+import { GITHUB_LINK } from "@/constants"
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import { SEO } from "astro-seo"
+import { getCollection } from "astro:content"
 
-const posts = await getCollection('posts').then((result) => {
-  result.sort((a, b) => +b.data.date - +a.data.date);
-  return result.slice(0, 2);
-});
+const posts = await getCollection("posts").then((result) => {
+  result.sort((a, b) => +b.data.date - +a.data.date)
+  return result.slice(0, 2)
+})
 
-const title = "Viet-Hung Nguyen's Blog";
+const title = "Viet-Hung Nguyen's Blog"
 const description =
-  'A collection of thoughts about my journey into coding, small web experiments, and other topics about the programming.';
+  "A collection of thoughts about my journey into coding, small web experiments, and other topics about the programming."
 ---
 
 <BaseLayout>
@@ -24,7 +24,7 @@ const description =
       basic: {
         title,
         image: `${Astro.site}/og.png`,
-        type: 'website',
+        type: "website",
         url: Astro.site,
       },
     }}
@@ -36,8 +36,8 @@ const description =
       This blog is <a
         href={`${GITHUB_LINK}/blog`}
         target="_blank"
-        class="link link-hover link-primary after:content-['_↗']"
-        >open-sourced</a>
+        class="link link-hover link-primary after:content-['_↗']">open-sourced</a
+      >
     </p>
   </section>
   <div class="divider container p-0"></div>
@@ -46,8 +46,6 @@ const description =
     <ul class="space-y-8">
       {posts.map((entry) => <PostEntry {entry} />)}
     </ul>
-    <a href="/posts" class="font-bold hover:underline after:content-['_→']"
-      >View all posts</a
-    >
+    <a href="/posts" class="font-bold hover:underline after:content-['_→']">View all posts</a>
   </section>
 </BaseLayout>
