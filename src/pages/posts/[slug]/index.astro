@@ -51,7 +51,7 @@ const image = new URL("og.png", currentLink).toString()
       {tags.map(tag => <li class="badge badge-primary">{tag}</li>)}
     </ul> : undefined}
   </section>
-  <article class="container mb-16">
+  <article class="container relative mb-16">
     <Content components={markdown} />
   </article>
 </BaseLayout>
