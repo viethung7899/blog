@@ -1,4 +1,5 @@
 ---
+import { GITHUB_LINK, LINKEDIN_LINK } from '@/constants';
 import Logo from '../header/Logo.astro';
 import ThemeSwitcher from '../header/ThemeSwitcher.svelte';
 ---
@@ -13,10 +14,10 @@ import ThemeSwitcher from '../header/ThemeSwitcher.svelte';
           href="https://vhng.dev">About me</a
         >
       </li>
-      <!-- Github -->
+      <!-- Linkedin -->
       <li>
         <a
-          href="https://linkedin.com/vhng7899"
+          href={LINKEDIN_LINK}
           title="Linkedin"
           class="btn btn-sm btn-square btn-ghost"
         >
@@ -28,10 +29,10 @@ import ThemeSwitcher from '../header/ThemeSwitcher.svelte';
           </svg>
         </a>
       </li>
-      <!-- Linkedin -->
+      <!-- GitHub -->
       <li>
         <a
-          href="https://github.com/viethung7899"
+          href={GITHUB_LINK}
           title="GitHub"
           class="btn btn-sm btn-square btn-ghost"
         >

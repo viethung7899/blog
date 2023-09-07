@@ -1,5 +1,6 @@
 ---
 import PostEntry from '@/components/PostEntry.astro';
+import { GITHUB_LINK } from '@/constants';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SEO } from 'astro-seo';
 import { getCollection } from 'astro:content';
@@ -15,17 +16,29 @@ const description =
 ---
 
 <BaseLayout>
-  <SEO slot="seo" {title} {description} openGraph={{
-    basic: {
-      title,
-      image: `${Astro.site}/og.png`,
-      type: "website",
-      url: Astro.site
-    }
-  }} />
+  <SEO
+    slot="seo"
+    {title}
+    {description}
+    openGraph={{
+      basic: {
+        title,
+        image: `${Astro.site}/og.png`,
+        type: 'website',
+        url: Astro.site,
+      },
+    }}
+  />
   <section class="container my-8 space-y-4">
     <h1 class="text-2xl sm:text-4xl font-semibold">Welcome to my blog 🎇</h1>
-    <p class="text-foreground/60 [text-wrap:balance]">{description}</p>
+    <p class="[text-wrap:balance]">{description}</p>
+    <p>
+      This blog is <a
+        href={`${GITHUB_LINK}/blog`}
+        target="_blank"
+        class="link link-hover link-primary after:content-['_↗']"
+        >open-sourced</a>
+    </p>
   </section>
   <div class="divider container p-0"></div>
   <section class="container my-4 flex flex-col gap-8">
