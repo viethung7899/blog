@@ -9,6 +9,5 @@ export default {
   ol,
   code,
   a,
-  img,
   pre: CodeBlock
 }

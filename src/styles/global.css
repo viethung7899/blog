@@ -9,4 +9,7 @@
   body {
     @apply bg-base-100 text-base-content;
   }
+  img {
+    @apply border rounded-md;
+  }
 }
