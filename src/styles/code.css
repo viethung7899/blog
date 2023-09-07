@@ -1,4 +1,4 @@
-pre {
+.astro-code-block pre {
   @apply p-2 join-item border bg-transparent rounded-md;
 }
 
@@ -6,10 +6,30 @@ pre {
   @apply rounded-tl-none;
 }
 
-pre.light-plus {
+.astro-code-block pre.light-plus {
   @apply dark:hidden;
 }
 
-pre.one-dark-pro {
+.astro-code-block pre.one-dark-pro {
   @apply hidden dark:block;
+}
+
+.astro-code-block span.line:last-child {
+  @apply hidden;
+}
+
+.astro-code-block.showLineNumbers code {
+  counter-reset: line;
+}
+
+.astro-code-block.showLineNumbers span.line::before {
+  counter-increment: line;
+  content: counter(line);
+  width: 3ch;
+  @apply inline-block mr-2 opacity-80 text-right;
+}
+
+.astro-code-block.isTerminal span.line::before {
+  content: "$";
+  @apply mr-2 opacity-80;
 }

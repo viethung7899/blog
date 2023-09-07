@@ -1,6 +1,6 @@
 ---
-import { Code } from "astro:components";
-import type { Lang } from "shiki";
+import { Code } from 'astro:components';
+import type { Lang } from 'shiki';
 import { processMeta } from './processMeta';
 
 interface Props {
@@ -13,12 +13,22 @@ const { raw, lang, meta } = Astro.props;
 const isTerminal = lang === 'bash';
 const { title, showLineNumbers } = processMeta(meta || '');
 
-import "@/styles/code.css";
-
+import '@/styles/code.css';
 ---
 
-<div class="flex flex-col mt-4 text-sm">
-  {title ? <div class="astro-code-title self-start rounded-t-lg py-2 px-4 font-semibold font-mono bg-primary text-primary-content join-item">{title}</div> : null}
+<div
+  class:list={[
+    'astro-code-block flex flex-col mt-4 text-sm',
+    { showLineNumbers: showLineNumbers && !isTerminal, isTerminal },
+  ]}
+>
+  {
+    title ? (
+      <div class="astro-code-title self-start rounded-t-lg py-2 px-4 font-semibold font-mono bg-primary text-primary-content join-item">
+        {title}
+      </div>
+    ) : null
+  }
   <Code code={raw} lang={lang} theme="light-plus" />
   <Code code={raw} lang={lang} theme="one-dark-pro" />
 </div>
