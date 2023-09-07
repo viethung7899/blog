@@ -57,3 +57,7 @@ export const ol = ({ children, ...props }: ComponentProps<"ol">) => {
 export const code = (props: ComponentProps<"code">) => {
   return <code {...props} className="relative rounded bg-base-300 px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold" />
 }
+
+export const img = (props: ComponentProps<"img">) => {
+  return <img {...props} className="border rounded-md shadow-xl" />
+}
