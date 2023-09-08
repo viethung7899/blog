@@ -2,7 +2,7 @@
   import { Pause, Play, RotateCcw } from "lucide-svelte"
   import { onMount } from "svelte"
   import UploadAudio from "./UploadAudio.svelte"
-  import { audioFile, playing, progress } from "./audio"
+  import { audioFile, playing, progress, setupAnalyzer } from "./audio"
 
   let mounted = false
   let timestamp = 0
@@ -21,6 +21,9 @@
     audio.addEventListener("loadedmetadata", () => {
       duration = audio?.duration || 0
     })
+    setupAnalyzer(audio)
+    timestamp = 0
+    progress.set(0)
   }
 
   function displayTime(time: number) {
@@ -38,15 +41,15 @@
   }
 
   function play() {
-    if (!audio || $playing) return
-    $playing = true
+    if (!audio) return
+    playing.set(true)
     audio.play()
     updateTime()
   }
 
   function pause() {
-    if (!audio || !$playing) return
-    $playing = false
+    if (!audio) return
+    playing.set(false)
     audio.pause()
     cancelAnimationFrame(animationFrame)
   }
@@ -67,7 +70,7 @@
   <div class="p-4 flex items-center gap-2">
     <button
       class="btn btn-circle bg-transparent hover:opacity-100 text-accent"
-      on:click={playing ? pause : play}
+      on:click={$playing ? pause : play}
       disabled={!audio}
     >
       {#if $playing}
