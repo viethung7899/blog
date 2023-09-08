@@ -1,5 +1,7 @@
 <script lang="ts">
   import { createDropdownMenu, melt } from "@melt-ui/svelte"
+  import { updateThemeStore } from "./themeStore"
+  import { onMount } from "svelte"
   const {
     elements: { menu, item, trigger },
   } = createDropdownMenu({
@@ -7,6 +9,8 @@
       placement: "bottom-end",
     },
   })
+
+  onMount(() => updateThemeStore())
 
   const themes = ["light", "night", "system"] as const
   const setTheme = (theme: (typeof themes)[number]) => {
@@ -20,6 +24,7 @@
       document.documentElement.setAttribute("data-theme", theme)
       localStorage.setItem("theme", theme)
     }
+    updateThemeStore()
   }
 </script>
 
