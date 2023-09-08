@@ -1,13 +1,12 @@
 <script lang="ts">
   import { Pause, Play, RotateCcw } from "lucide-svelte"
-  import UploadAudio from "./UploadAudio.svelte"
-  import { audioFile, progress } from "./audio"
   import { onMount } from "svelte"
+  import UploadAudio from "./UploadAudio.svelte"
+  import { audioFile, playing, progress } from "./audio"
 
   let mounted = false
   let timestamp = 0
   let duration = 0
-  let playing = false
   let animationFrame = 0
   let audio: HTMLAudioElement | undefined
 
@@ -39,15 +38,15 @@
   }
 
   function play() {
-    if (!audio || playing) return
-    playing = true
+    if (!audio || $playing) return
+    $playing = true
     audio.play()
     updateTime()
   }
 
   function pause() {
-    if (!audio || !playing) return
-    playing = false
+    if (!audio || !$playing) return
+    $playing = false
     audio.pause()
     cancelAnimationFrame(animationFrame)
   }
@@ -71,7 +70,7 @@
       on:click={playing ? pause : play}
       disabled={!audio}
     >
-      {#if playing}
+      {#if $playing}
         <Pause />
       {:else}
         <Play />

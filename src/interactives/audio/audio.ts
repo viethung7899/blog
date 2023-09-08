@@ -5,3 +5,4 @@ const SAMPLES = 256
 
 export const audioFile = writable<File>()
 export const progress = writable(0)
+export const playing = writable(false)
