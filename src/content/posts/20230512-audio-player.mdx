@@ -1,0 +1,52 @@
+---
+title: Building audio player and visualizer
+date: 2023-05-12
+thumbnail: posts/astro
+description: Use WebAudio API to build an audio player in combination with HTML5 Canvas to visualize audio data.
+tags: [svelte, web-audio, html5-canvas]
+---
+
+When coming across different websties and YouTube videos, I see countless ways of visualizing audio
+to spice up the music listening experience. I have always been curious about how I can code it for myself.
+In this article, I will show you how to visualize audio waveform and frequency spectrum with Web Audio API,
+HTML5 Canvas and Svelte. As you can see in my interactive demo, I also code my own audio player with Svelte,
+and you can upload any audio file to play and visualize.
+
+There are two types of audio visualization that I will cover in this article: waveform and frequency spectrum.
+
+- **Waveform** is the amplitude of the audio signal over time. It is static and only depnends on the audio source.
+- **Frequency spectrum** is the amplitude of the audio signal over frequency. It is dynamic and changes as the audio plays.
+
+## Audio player
+
+Before we start, let's create a global store to store the audio source and some audio states.
+
+```ts title="audio.ts"
+import { writable } from "svelte/store"
+
+export const audioFile = writable<File>() // Audio file upload by user
+export const analyser = writable<AnalyserNode>() // This will hook up with the audio source
+export const isPlaying = writable(false) // Whether the audio is playing
+export const progress =  writable(0) // The progress of the audio (from 0 to 1)
+```
+
+Also, we need user to upload an audio file, so let's create Svelte components for that.
+
+```svelte title="UploadAudio.svelte"
+<script>
+  import { audioFile } from "./audio"
+</script>
+
+<label for="audio-file">Upload audio</label>
+<input
+  class="hidden"
+  id="audio-file"
+  type="file"
+  accept="audio/*"
+  on:change={(e) => {
+    const files = e.currentTarget.files
+    if (!files || files.length === 0) return
+    audioFile.set(files[0])
+  }}
+/>
+```
