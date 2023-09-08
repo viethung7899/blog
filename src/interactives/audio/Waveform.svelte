@@ -41,7 +41,6 @@
     if (!$audioFile || !mounted) break $
     const audioCtx = new AudioContext()
     loading = true
-    console.log("Loading audio file...")
     $audioFile
       .arrayBuffer()
       .then((buffer) => audioCtx.decodeAudioData(buffer))
@@ -53,7 +52,6 @@
         waveformData = sampled.map((v) => v / max)
       })
       .finally(() => {
-        console.log("Audio file loaded.")
         loading = false
       })
   }
@@ -64,7 +62,6 @@
     const { width, height } = canvas
     ctx.clearRect(0, 0, width, height)
     if (waveformData.length <= 0) break $
-    console.log("Drawing waveform...")
     const length = waveformData.length
     const w = canvas.width / length
     for (let i = 0; i < length; i++) {
@@ -84,7 +81,7 @@
   <UploadAudio />
 </div>
 <canvas
-  class="w-full aspect-[2/1] border rounded-lg bg-base-300"
+  class="w-full aspect-[5/2] border rounded-lg bg-base-300"
   bind:this={canvas}
   class:hidden={!$audioFile}
 >
