@@ -7,12 +7,20 @@ import { html } from "satori-html"
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts")
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: {
-      data: post.data,
-    },
-  }))
+
+  const paths = posts.map(async (post) => {
+    const { slug, render, data } = post
+    const { remarkPluginFrontmatter } = await render()
+    return {
+      params: { slug },
+      props: {
+        data,
+        readingTime: remarkPluginFrontmatter.minutesRead,
+      },
+    }
+  })
+
+  return await Promise.all(paths)
 }
 
 const imageBase64 = Buffer.from(readFileSync("src/assets/og-background.png")).toString("base64")
@@ -55,7 +63,7 @@ const DIMENSIONS = {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
 export async function GET({ props }: APIContext) {
-  const { data } = props as Props
+  const { data, readingTime } = props as Props
 
   const date = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -73,7 +81,7 @@ export async function GET({ props }: APIContext) {
       <div tw="text-4xl font-bold" style="color: #1fb2a6;">V_</div>
       <div tw="flex flex-col">
         <div tw="text-4xl font-semibold">${data.title}</div>
-        <p tw="text-xl opacity-80">${[date, ...tags].join(" · ")}</p>
+        <p tw="text-xl opacity-80">${[date, readingTime, ...tags].join(" · ")}</p>
       </div>
     </div>
   `

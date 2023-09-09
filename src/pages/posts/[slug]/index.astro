@@ -24,7 +24,7 @@ const formattedDate = new Intl.DateTimeFormat("en", {
   timeZone: "utc",
 }).format(date)
 
-const { Content } = await post.render()
+const { Content, remarkPluginFrontmatter } = await post.render()
 const currentLink = new URL(Astro.url.pathname, Astro.site)
 const image = new URL("og.png", currentLink).toString()
 ---
@@ -50,7 +50,7 @@ const image = new URL("og.png", currentLink).toString()
   </Fragment>
   <section class="container py-8 mb-8 space-y-4 border-b">
     <h1 class="font-semibold text-3xl">{title}</h1>
-    <span>{formattedDate}</span>
+    <span>{formattedDate} · {remarkPluginFrontmatter.minutesRead}</span>
     {
       tags ? (
         <ul class="flex gap-2">
