@@ -27,7 +27,7 @@ import { writable } from "svelte/store"
 export const audioFile = writable<File>() // Audio file upload by user
 export const analyser = writable<AnalyserNode>() // This will hook up with the audio source
 export const isPlaying = writable(false) // Whether the audio is playing
-export const progress =  writable(0) // The progress of the audio (from 0 to 1)
+export const progress = writable(0) // The progress of the audio (from 0 to 1)
 ```
 
 Also, we need user to upload an audio file, so let's create Svelte components for that.
@@ -50,3 +50,340 @@ Also, we need user to upload an audio file, so let's create Svelte components fo
   }}
 />
 ```
+
+Now, let's make the `AudioPlayer` components with two basic functions: `play` and `pause`. First, as the audio file is uploaded,
+we need to create an audio source. Also, we need to create an `AnalyserNode` to analyse the audio data for later frequency spectrum visualization.
+
+```svelte
+<script lang="ts">
+  import { audioFile, playing } from "./audio"
+
+  let audio: HTMLAudioElement | undefined
+
+  function loadAudio(file: File) {
+    audio = new Audio(URL.createObjectURL(file))
+    playing.set(false)
+    setupAnalyser(audio) // This will be explained later
+  }
+
+  $: {
+    if ($audioFile) loadAudioFromFile($audioFile)
+  }
+</script>
+```
+
+Then, we can create the `play` and `pause` functions.
+
+```ts
+function play() {
+  if (!audio) return
+  audio.play()
+  playing.set(true)
+}
+
+function pause() {
+  if (!audio) return
+  audio.pause()
+  playing.set(false)
+}
+```
+
+Finally, we hook up the function with the button.
+
+```svelte
+<button on:click={$playing} disabled={}>
+  {$playing ? "Pause" : "Play"}
+</button>
+```
+
+Add few CSS style, you will have a basic audio player button.
+
+### Showing progress
+
+We can also show the progress of the audio. To do that, we need to know the current time and duration of the audio.
+Let's modify the `loadAudio` function to store the duration of the audio
+
+```ts
+let duration = 0
+let currentTime = 0
+
+function loadAudio(file: File) {
+  audio = new Audio(URL.createObjectURL(file))
+  playing.set(false)
+  timestamp = 0
+  audio.addEventListener("loadedmetadata", () => {
+    duration = audio?.duration || 0
+  })
+  audio.addEventListener("timeupdate", (e) => {
+    timestamp = audio?.currentTime || 0
+  })
+  setupAnalyser(audio) // This will be explained later
+}
+```
+
+Also, as the currentTime update, we need to update the `progress` store as well.
+
+```ts
+$: progress.set(duration === 0 ? 0 : currentTime / duration)
+```
+
+Now we can display the current time and duration of the audio.
+
+```svelte
+<script>
+  // Convert time in seconds in format of mm:ss
+  function displayTime(time: number) {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`
+  }
+</script>
+
+<div>
+  {formatTime(currentTime)} / {formatTime(duration)}
+</div>
+```
+
+Combining the play button, timestamp display, upload button with few Tailwind CSS styling,
+we have a basic audio player showing at the bottom of the page.
+
+## Canvas boilerplate
+
+Before we start visualizing the audio, we need to create a canvas element to draw on.
+
+```svelte
+<script>
+  import { onMount } from "svelte"
+  let canvas: HTMLCanvasElement
+  let ctx: CanvasRenderingContext2D | null
+
+  function updateSize(canvas) {
+    canvas.width = canvas.clientWidth
+    canvas.height = canvas.clientHeight
+  }
+
+  onMount(() => {
+    ctx = canvas.getContext("2d")
+  })
+</script>
+
+<canvas class="w-full aspect-[5/2]" bind:this={canvas} />
+```
+
+## Waveform
+
+Again, waveform is static and only depends on the audio source. Therefore, we can create a `Waveform.svelte` component
+that takes in the audio file source and display the waveform as props. To make it more interesting, we also want to reflect
+the progress of the audio on the waveform as well props. Let's add these to the `script` tag of our boilerplate canvas components.
+
+```svelte title="Waveform.svelte"
+<script lang="ts">
+  export let audioFile: File
+  export let progress: number = 0
+</script>
+```
+
+Now, we need to extract the data from the audio file.
+
+```ts
+let data: number = []
+
+const SAMPLES = 256 // Number of samples to extract from the audio file
+
+$: {
+  const audioContext = new AudioContext()
+  // Async / await does not work with Svelte reactive statement, so we need to use Promise instead
+  audioFile
+    .arrayBuffer()
+    .then((buffer) => audioContext.decodeAudioData(buffer))
+    .then((audioBuffer) => {
+      // Get the first channel
+      const channelData = audioBuffer.getChannelData(0)
+      // Sampling the data to get 256 sample points
+      const samples = samplingData(channelData, SAMPLES)
+      // Normalize the data to be between 0 and 1
+      const max = Math.max(...samples)
+      data = samples.map((sample) => sample / max)
+    })
+}
+```
+
+Now, we can draw the waveform on the canvas. Let's create a `draw` function that's takes `data` and `progress`
+and use reactive statement to call the function whenever `data` or `progress` changes.
+
+```ts
+function draw(data: number[], progress: number) {
+  if (!ctx) return
+  updateSize()
+  const { width, height } = canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  const w = width / data.length // The width of each bar
+  for (let i = 0; i < data.length; i++) {
+    const h = data[i] * height // The height of each bar
+    const x = i * w // The offset of each bar
+    const y = (height - h) / 2 // Align the bar to the center of the canvas
+    const color = i / data.length < progress ? "red" : "gray" // Color the bar based on the progress
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, w, h)
+  }
+}
+
+$: draw(data, progress)
+```
+
+To render the waveform, we can simply pass in the `audioFile` and `progress` props.
+You can render the prompt to upload audio file if the `audioFile` is not provided.
+
+```svelte
+<script>
+  import { audioFile, progress } from "./audio"
+  import Waveform from "./Waveform.svelte"
+</script>
+
+{#if $audioFile}
+  <Waveform audioFile={$audioFile} progress={$progress} />
+{:else}
+  <!-- Prompts to upload audio file -->
+{/if}
+```
+
+Here's the final result.
+
+import Waveform from "@/interactives/audio/Waveform.svelte"
+
+<Waveform client:load />
+
+## Frequency spectrum
+
+Frequency spectrum is dynamic and changes as the audio plays. It requires us to use `AnalyserNode` to extract the frequency data
+with `getByteFrequencyData` method. The frequency data is an array of 8-bit unsigned integers (0-255) that represents the amplitude.
+
+First of all, let's implement loadAnalyser function that takes in the audio source and store the result in the store.
+
+```ts title="audio.ts"
+// ... More stores
+export const analyser = writable<AnalyserNode>()
+
+export const FFT_SIZE = 256
+
+export function setupAnalyzer(audio: HTMLAudioElement) {
+  const context = new AudioContext()
+  const source = context.createMediaElementSource(audio)
+  const analyserNode = context.createAnalyser()
+  analyserNode.fftSize = FFT_SIZE
+  // Connect the audio source to the analyser node
+  source.connect(analyserNode)
+  // Connect the analyser node to the destination (i.e. speakers)
+  analyserNode.connect(context.destination)
+  analyser.set(analyserNode)
+}
+```
+
+Now, we can create a `FrequencySpectrum.svelte` component that takes in the `analyser` store and display the frequency spectrum.
+Since the frequency spectrum is dynamic and depends whether the audio plays, we need to pass `isPlaying` as well. Let's add these props to the component.
+Also, we need to create a `data` state as to store the frequency data, and decay factor to make the frequency spectrum fade out over time if the audio is paused.
+
+```svelte title="FrequencySpectrum.svelte"
+<script lang="ts">
+  import { FFT_SIZE } from "./audio"
+  export let analyser: AnalyserNode
+  export let isPlaying: boolean
+
+  const DECAY_FACTOR = 0.95 // The decay factor of the frequency spectrum
+  let data: Uint8Array = new Uint8Array(FFT_SIZE / 2)
+  let decay = 1 // The decay of the frequency spectrum
+
+  let animationFrame = 0 // The animation frame id
+</script>
+```
+
+Next, we create a function that takes in the `data` and draw each frequency bar on the bottom of the canvas.
+
+```ts
+function draw(data: Uint8Array, factor: number) {
+  if (!ctx) return
+  updateSize()
+  const { width, height } = canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  const w = width / data.length // The width of each bar
+  for (let i = 0; i < data.length; i++) {
+    const h = (data[i] / 255) * factor // The height of each bar
+    const x = i * w // The offset of each bar
+    const y = height - h // Align the bar to the bottom of the canvas
+    ctx.fillStyle = "red" // Your color of choice
+    ctx.fillRect(x, y, w, h)
+  }
+}
+```
+
+When the audio is playing, we need to update the `data` state with the frequency data from the `analyser`.
+
+```ts
+function updateData() {
+  analyser.getByteFrequencyData(data)
+  decay = 1
+  draw(data, decay)
+  animationFrame = requestAnimationFrame(updateData)
+}
+```
+
+Otherwise, we need to decay the `data` state and redraw the frequency spectrum.
+
+```ts
+function decayData() {
+  decay *= DECAY_FACTOR
+  draw(data, decay)
+  animationFrame = requestAnimationFrame(decayData)
+}
+```
+
+Finally, we can use reactive statement to call the `updateData` or `decayData` function based on the `isPlaying` state.
+
+```svelte
+<script lang="ts">
+  //...
+  $: {
+    cancelAnimationFrame(animationFrame)
+    if ($isPlaying) updateData()
+    else decayData()
+  }
+</script>
+```
+
+Now, we can render the frequency spectrum with the `analyser` and `isPlaying` props.
+
+```svelte
+<script>
+  import { analyser, isPlaying } from "./audio"
+  import FrequencySpectrum from "./FrequencySpectrum.svelte"
+</script>
+
+{#if $analyser}
+  <FrequencySpectrum analyser={$analyser} isPlaying={$isPlaying} />
+{:else}
+  <!-- Prompts to upload audio file -->
+{/if}
+```
+
+Here's the final result.
+
+import FrequencySpectrum from "@/interactives/audio/FrequencySpectrum.svelte"
+
+<FrequencySpectrum client:load />
+
+## Conclusion
+
+That's it! We have built an audio player and visualizer with Web Audio API, HTML5 Canvas and Svelte.
+Have fun playing with the interactive demo below!
+
+import AudioPlayer from "@/interactives/audio/AudioPlayer.svelte"
+
+<AudioPlayer client:load />
+
+Waveform
+
+<Waveform client:load />
+
+Frequency spectrum
+
+<FrequencySpectrum client:load />
