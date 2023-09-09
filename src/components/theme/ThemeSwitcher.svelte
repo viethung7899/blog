@@ -60,7 +60,7 @@
   >
   <span class="sr-only">Toggle theme</span>
 </button>
-<ul class="menu bg-base-200 w-24 rounded-box" use:melt={$menu}>
+<ul class="menu bg-base-200 w-24 rounded-box z-10" use:melt={$menu}>
   {#each themes as theme}
     <li
       use:melt={$item}
