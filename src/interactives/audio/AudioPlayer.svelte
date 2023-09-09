@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Pause, Play, RotateCcw } from "lucide-svelte"
   import { onMount } from "svelte"
-  import UploadAudio from "./UploadAudio.svelte"
+  import UploadAudio from "./components/UploadAudio.svelte"
   import { audioFile, playing, progress, setupAnalyzer } from "./audio"
 
   let mounted = false
@@ -18,13 +18,17 @@
     if (!mounted || !$audioFile) break $
     audio = new Audio(URL.createObjectURL($audioFile))
     audio.preload = "metadata"
+    timestamp = 0
     audio.addEventListener("loadedmetadata", () => {
       duration = audio?.duration || 0
     })
+    audio.addEventListener("timeupdate", (e) => {
+      timestamp = audio?.currentTime || 0
+    })
     setupAnalyzer(audio)
-    timestamp = 0
-    progress.set(0)
   }
+
+  $: progress.set(duration === 0 ? 0 : timestamp / duration)
 
   function displayTime(time: number) {
     const round = Math.round(time)
@@ -33,18 +37,10 @@
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
 
-  function updateTime() {
-    if (!audio) return
-    timestamp = audio.currentTime
-    progress.set(duration === 0 ? 0 : timestamp / duration)
-    animationFrame = requestAnimationFrame(updateTime)
-  }
-
   function play() {
     if (!audio) return
     playing.set(true)
     audio.play()
-    updateTime()
   }
 
   function pause() {
@@ -63,7 +59,7 @@
   }
 </script>
 
-<div class="bg-base-300 z-10 rounded-b-lg mt-4">
+<div class="bg-base-300/50 backdrop-blur-xl z-10 rounded-b-lg mt-4 sticky bottom-4">
   <div class="h-1 bg-neutral">
     <div class="h-full bg-accent" style:width={`${$progress * 100}%`}></div>
   </div>

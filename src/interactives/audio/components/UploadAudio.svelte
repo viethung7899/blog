@@ -1,12 +1,12 @@
 <script>
   import { Upload } from "lucide-svelte"
-  import { audioFile } from "./audio"
+  import { audioFile } from "../audio"
 
   export let id = "audio-file"
 </script>
 
-<label for={id} class="btn normal-case">
-  <Upload />
+<label for={id} class="btn btn-outline normal-case btn-sm">
+  <Upload class="w-4 h-4" />
   <span class="hidden sm:block">Upload audio</span>
 </label>
 <input
