@@ -1,7 +1,7 @@
 ---
 import { GITHUB_LINK, LINKEDIN_LINK } from "@/constants"
 import Logo from "../header/Logo.astro"
-import ThemeSwitcher from "../theme/ThemeSwitcher.svelte"
+import ThemePicker from "../theme/ThemePicker"
 ---
 
 <header class="p-2 sticky top-0 z-40 md:px-[-0.5rem]">
@@ -37,10 +37,7 @@ import ThemeSwitcher from "../theme/ThemeSwitcher.svelte"
           </svg>
         </a>
       </li>
-      <!-- Theme Switcher -->
-      <li>
-        <ThemeSwitcher client:load />
-      </li>
+      <ThemePicker client:load />
     </ul>
   </div>
 </header>
