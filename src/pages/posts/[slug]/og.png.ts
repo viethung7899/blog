@@ -24,36 +24,26 @@ export async function getStaticPaths() {
 }
 
 const imageBase64 = Buffer.from(readFileSync("src/assets/og-background.png")).toString("base64")
-
-async function getFonts() {
-  const regular = await fetch("https://fonts.cdnfonts.com/s/19795/Inter-Regular.woff").then((res) =>
-    res.arrayBuffer(),
-  )
-  const semibold = await fetch("https://fonts.cdnfonts.com/s/19795/Inter-SemiBold.woff").then(
-    (res) => res.arrayBuffer(),
-  )
-  const bold = await fetch("https://fonts.cdnfonts.com/s/19795/Inter-Bold.woff").then((res) =>
-    res.arrayBuffer(),
-  )
-
-  return [
-    {
-      name: "Inter",
-      data: regular,
-      weight: 400,
-    },
-    {
-      name: "Inter",
-      data: semibold,
-      weight: 600,
-    },
-    {
-      name: "Inter",
-      data: bold,
-      weight: 700,
-    },
-  ] satisfies Font[]
-}
+const regular = readFileSync("src/assets/fonts/Inter-Regular.woff")
+const semibold = readFileSync("src/assets/fonts/Inter-SemiBold.woff")
+const bold = readFileSync("src/assets/fonts/Inter-Bold.woff")
+const fonts = [
+  {
+    name: "Inter",
+    data: regular,
+    weight: 400,
+  },
+  {
+    name: "Inter",
+    data: semibold,
+    weight: 600,
+  },
+  {
+    name: "Inter",
+    data: bold,
+    weight: 700,
+  },
+] satisfies Font[]
 
 const DIMENSIONS = {
   width: 1200,
@@ -85,8 +75,6 @@ export async function GET({ props }: APIContext) {
       </div>
     </div>
   `
-
-  const fonts = await getFonts()
 
   // @ts-ignore
   const svg = await satori(markup, {
