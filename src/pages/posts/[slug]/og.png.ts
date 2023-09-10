@@ -1,9 +1,9 @@
-import { Resvg } from "@resvg/resvg-js"
 import type { APIContext, InferGetStaticPropsType } from "astro"
 import { getCollection } from "astro:content"
 import { readFileSync } from "fs"
 import satori, { type Font } from "satori"
 import { html } from "satori-html"
+import sharp from "sharp"
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts")
@@ -82,14 +82,9 @@ export async function GET({ props }: APIContext) {
     fonts,
   })
 
-  const image = new Resvg(svg, {
-    fitTo: {
-      mode: "width",
-      value: DIMENSIONS.width,
-    },
-  }).render()
+  const png = sharp(Buffer.from(svg)).png()
 
-  return new Response(image.asPng(), {
+  return new Response(await png.toBuffer(), {
     headers: {
       "Content-Type": "image/png",
     },
