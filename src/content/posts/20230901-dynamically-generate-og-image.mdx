@@ -216,16 +216,18 @@ Satori supports JSX syntax, so we can use React components to scaffold the image
 However, Astro endpoints don't support JSX syntax (ie. `jsx` or `tsx` extension)
 To work around this, we can create a seperate file with JSX syntax then import it to the endpoint.
 
-First, let's extract the html markup. For my case, I use the `jsx` extension with JSDOC
+First, let's extract the html markup into a React component. For my case, I use the `jsx` extension with JSDOC
 so that the TypeScript compiler won't throw errors when I use `tw` attribute for Tailwind styling.
 
-```jsx title="components/og-image.jsx"
+```jsx title="og/image.jsx"
 /**
- * @param {string} title
- * @param {string} description
- * @param {string} imageBase64
+ * @param {{
+ *  title: string
+ *  description: string
+ *  imageBase64: string
+ * }} props
  */
-export function OGImage(title, description, imageBase64) {
+export function OGImage(props) {
   const { title, description, imageBase64 } = props
 
   return (
@@ -249,13 +251,13 @@ After that, we don't need to use `satori-html` anymore. We can direct pass JSX e
 
 ```ts title="posts/[slug]/og.png.ts"
 // ... More imports
-import { OGImage } from "@/components/og-image"
+import { OGImage } from "@/og/image"
 
 export async function GET({ props }: APIContext) {
   // ... More code
   const title = data.title
   const description = [date, ...tags].join(" · ")
-  const component = OGImage(title, description, imageBase64)
+  const component = OGImage({ title, description, imageBase64 })
 
   const svg = await satori(component, {
     ...DIMENSIONS,
