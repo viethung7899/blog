@@ -1,8 +1,8 @@
+import { OGImage } from "@/components/og-image"
 import type { APIContext, InferGetStaticPropsType } from "astro"
 import { getCollection } from "astro:content"
 import { readFileSync } from "fs"
 import satori, { type Font } from "satori"
-import { html } from "satori-html"
 import sharp from "sharp"
 
 export async function getStaticPaths() {
@@ -23,10 +23,11 @@ export async function getStaticPaths() {
   return await Promise.all(paths)
 }
 
-const imageBase64 = Buffer.from(readFileSync("src/assets/og-background.png")).toString("base64")
+const imageBase64 = readFileSync("src/assets/og-background.png").toString("base64")
 const regular = readFileSync("src/assets/fonts/Inter-Regular.woff")
 const semibold = readFileSync("src/assets/fonts/Inter-SemiBold.woff")
 const bold = readFileSync("src/assets/fonts/Inter-Bold.woff")
+
 const fonts = [
   {
     name: "Inter",
@@ -63,24 +64,13 @@ export async function GET({ props }: APIContext) {
   }).format(data.date)
   const tags = data.tags?.map((tag) => `#${tag}`) || []
 
-  const markup = html`
-    <div
-      tw="w-full h-full flex flex-col justify-between p-16 text-white"
-      style="background: url('data:image/png;base64,${imageBase64}')"
-    >
-      <div tw="text-4xl font-bold" style="color: #1fb2a6;">V_</div>
-      <div tw="flex flex-col">
-        <div tw="text-4xl font-semibold">${data.title}</div>
-        <p tw="text-xl opacity-80">${[date, readingTime, ...tags].join(" · ")}</p>
-      </div>
-    </div>
-  `
-
-  // @ts-ignore
-  const svg = await satori(markup, {
-    ...DIMENSIONS,
-    fonts,
-  })
+  const svg = await satori(
+    OGImage(data.title, [date, readingTime, ...tags].join(" · "), imageBase64),
+    {
+      ...DIMENSIONS,
+      fonts,
+    },
+  )
 
   const png = sharp(Buffer.from(svg)).png()
 
