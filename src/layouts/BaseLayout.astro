@@ -1,8 +1,10 @@
 ---
 import Footer from "@/components/site/Footer.astro"
 import Header from "@/components/site/Header.astro"
+import { ViewTransitions } from "astro:transitions"
 
 import "@/styles/global.css"
+import ThemeProvider from "@/components/theme/ThemeProvider.astro"
 ---
 
 <html lang="en" class="scroll-smooth">
@@ -18,7 +20,7 @@ import "@/styles/global.css"
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <slot name="seo" />
     <!-- Theme setup -->
-    <script is:inline src="/theme.js"></script>
+    <ThemeProvider />
     <!-- Analytics -->
     <script>
       window.va =
@@ -28,6 +30,7 @@ import "@/styles/global.css"
         }
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
+    <ViewTransitions />
   </head>
   <body class="flex flex-col min-h-screen">
     <Header />

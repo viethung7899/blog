@@ -1,0 +1,29 @@
+<script is:inline>
+  let theme = "system"
+
+  const getTheme = () => {
+    return (theme = localStorage.getItem("theme") || "system")
+  }
+
+  const setTheme = (theme = "system") => {
+    if (theme == "system") {
+      document.documentElement.setAttribute(
+        "data-theme",
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "light",
+      )
+    } else {
+      document.documentElement.setAttribute("data-theme", theme)
+    }
+  }
+
+  setTheme(getTheme())
+
+  const darkQuery = window.matchMedia("(prefers-color-scheme: dark)")
+
+  darkQuery.addEventListener("change", (e) => {
+    if ("theme" in localStorage) return
+    setTheme(e.matches ? "night" : "light")
+  })
+
+  document.addEventListener("astro:after-swap", () => setTheme(getTheme()))
+</script>
