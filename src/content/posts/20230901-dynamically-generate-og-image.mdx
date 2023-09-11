@@ -47,6 +47,18 @@ In my case, I want to host these images inside the blog post route, the route na
 So, we need to create a file `posts/[slug]/og.png.ts` under the `pages` directory with these two functions.
 Also, the path contains dynamic parameters, so we need to export `getStaticPaths` function to generate the list of paths.
 
+```ts title="posts/[slug]/og.png.ts"
+import type { APIContext, InferGetStaticPropsType } from "astro"
+
+export async function getStaticPaths() {
+  // ...
+}
+
+export async function GET(context: APIContext) {
+  // ...
+}
+```
+
 ### Load the resource
 
 We utilize the Astro Content Collections API to load the blog post data.
@@ -133,7 +145,7 @@ export async function GET({ props }: APIContext) {
 }
 ```
 
-### Convert markup to images
+### Convert markup to image
 
 The last step is very simple, we just need to convert the SVG to PNG image.
 Satori requires the font buffers to SVG generation. There are two ways to do this:
@@ -198,3 +210,65 @@ Voilà! We successfully generated the OG image from the blog post content.
 Here is an example of generated image from this post.
 
 ![Generated image with black background](/posts/20230901-dynamically-generate-og-image/og.png)
+
+## Bonus: Use JSX syntax
+
+Satori supports JSX syntax, so we can use React components to scaffold the image.
+However, Astro endpoints don't support JSX syntax (ie. `jsx` or `tsx` extension)
+To work around this, we can create a seperate file with JSX syntax then import it to the endpoint.
+
+First, let's extract the html markup. For my case, I use the `jsx` extension with JSDOC
+so that the TypeScript compiler won't throw errors when I use `tw` attribute for Tailwind styling.
+
+```jsx title="components/og-image.jsx"
+/**
+ * @param {string} title
+ * @param {string} description
+ * @param {string} imageBase64
+ */
+export function OGImage(title, description, imageBase64) {
+  const { title, description, imageBase64 } = props
+
+  return (
+    <div
+      tw="w-full h-full flex flex-col justify-between p-16 text-white"
+      style={{
+        backgroundImage: `url(data:image/png;base64,${imageBase64})`,
+      }}
+    >
+      <div tw="text-4xl font-bold text-teal-500">V_</div>
+      <div tw="flex flex-col">
+        <div tw="text-4xl font-semibold">{title}</div>
+        <p tw="text-xl opacity-80">{description}</p>
+      </div>
+    </div>
+  )
+}
+```
+
+After that, we don't need to use `satori-html` anymore. We can direct pass JSX element to `satori` function.
+
+```ts title="posts/[slug]/og.png.ts"
+// ... More imports
+import { OGImage } from "@/components/og-image"
+
+export async function GET({ props }: APIContext) {
+  // ... More code
+  const title = data.title
+  const description = [date, ...tags].join(" · ")
+  const component = OGImage(title, description, imageBase64)
+
+  const svg = await satori(component, {
+    ...DIMENSIONS,
+    fonts,
+  })
+
+  const png = sharp(Buffer.from(svg)).png()
+
+  return new Response(await png.toBuffer(), {
+    headers: {
+      "Content-Type": "image/png",
+    },
+  })
+}
+```
