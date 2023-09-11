@@ -1,9 +1,12 @@
 /**
- * @param {string} title
- * @param {string} description
- * @param {string} imageBase64
+ * @param {{
+ *  title: string
+ *  description: string
+ *  imageBase64: string
+ * }} props
  */
-export function OGImage(title, description, imageBase64) {
+export function OGImage(props) {
+  const { title, description, imageBase64 } = props
   return (
     <div
       tw="w-full h-full flex flex-col justify-between p-16 text-white"

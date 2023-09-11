@@ -1,8 +1,8 @@
-import { OGImage } from "@/components/og-image"
+import { OGImage } from "@/og/image"
+import { dimension, fonts, imageBase64 } from "@/og/resource"
 import type { APIContext, InferGetStaticPropsType } from "astro"
 import { getCollection } from "astro:content"
-import { readFileSync } from "fs"
-import satori, { type Font } from "satori"
+import satori from "satori"
 import sharp from "sharp"
 
 export async function getStaticPaths() {
@@ -23,34 +23,6 @@ export async function getStaticPaths() {
   return await Promise.all(paths)
 }
 
-const imageBase64 = readFileSync("src/assets/og-background.png").toString("base64")
-const regular = readFileSync("src/assets/fonts/Inter-Regular.woff")
-const semibold = readFileSync("src/assets/fonts/Inter-SemiBold.woff")
-const bold = readFileSync("src/assets/fonts/Inter-Bold.woff")
-
-const fonts = [
-  {
-    name: "Inter",
-    data: regular,
-    weight: 400,
-  },
-  {
-    name: "Inter",
-    data: semibold,
-    weight: 600,
-  },
-  {
-    name: "Inter",
-    data: bold,
-    weight: 700,
-  },
-] satisfies Font[]
-
-const DIMENSIONS = {
-  width: 1200,
-  height: 630,
-}
-
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
 export async function GET({ props }: APIContext) {
@@ -65,9 +37,13 @@ export async function GET({ props }: APIContext) {
   const tags = data.tags?.map((tag) => `#${tag}`) || []
 
   const svg = await satori(
-    OGImage(data.title, [date, readingTime, ...tags].join(" · "), imageBase64),
+    OGImage({
+      title: data.title,
+      description: [date, readingTime, ...tags].join(" · "),
+      imageBase64,
+    }),
     {
-      ...DIMENSIONS,
+      ...dimension,
       fonts,
     },
   )
