@@ -10,6 +10,7 @@ const posts = await getCollection("posts").then((result) => {
 })
 
 const title = "All posts"
+const ogLink = new URL("og.png", Astro.site)
 ---
 
 <BaseLayout>
@@ -20,7 +21,7 @@ const title = "All posts"
     openGraph={{
       basic: {
         title,
-        image: `${Astro.site}/og.png`,
+        image: ogLink.href,
         type: "website",
         url: Astro.site,
       },

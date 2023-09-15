@@ -13,6 +13,8 @@ const posts = await getCollection("posts").then((result) => {
 const title = "Viet-Hung Nguyen's Blog"
 const description =
   "A collection of thoughts about my journey into coding, small web experiments, and other topics about the programming."
+
+const ogImage = new URL("og.png", Astro.site)
 ---
 
 <BaseLayout>
@@ -23,7 +25,7 @@ const description =
     openGraph={{
       basic: {
         title,
-        image: `${Astro.site}/og.png`,
+        image: ogImage.href,
         type: "website",
         url: Astro.site,
       },
