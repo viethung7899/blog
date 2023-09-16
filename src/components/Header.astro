@@ -1,6 +1,6 @@
 ---
 import { ABOUT_ME_LINK } from "@/constants"
-import Logo from "./logo/Logo.astro"
+import Logo from "./logo/Logo.svelte"
 import ThemePicker from "./theme/ThemePicker"
 ---
 
@@ -8,7 +8,7 @@ import ThemePicker from "./theme/ThemePicker"
   <div
     class="container flex items-center justify-between rounded-xl border p-2 bg-base-100 shadow-lg"
   >
-    <Logo />
+    <Logo client:load />
     <ul class="flex items-center">
       <li>
         <a class="btn btn-ghost btn-sm normal-case after:content-['_↗']" href={ABOUT_ME_LINK}
