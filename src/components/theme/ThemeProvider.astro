@@ -1,8 +1,6 @@
 <script is:inline>
-  let theme = "system"
-
   const getTheme = () => {
-    return (theme = localStorage.getItem("theme") || "system")
+    return localStorage.getItem("theme") || "system"
   }
 
   const setTheme = (theme = "system") => {
