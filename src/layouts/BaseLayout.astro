@@ -1,10 +1,10 @@
 ---
-import Footer from "@/components/site/Footer.astro"
-import Header from "@/components/site/Header.astro"
+import Footer from "@/components/Footer.astro"
+import Header from "@/components/Header.astro"
 import { ViewTransitions } from "astro:transitions"
 
-import "@/styles/global.css"
 import ThemeProvider from "@/components/theme/ThemeProvider.astro"
+import "@/styles/global.css"
 ---
 
 <html lang="en" class="scroll-smooth">
@@ -19,9 +19,7 @@ import ThemeProvider from "@/components/theme/ThemeProvider.astro"
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <slot name="seo" />
-    <!-- Theme setup -->
     <ThemeProvider />
-    <!-- Analytics -->
     <ViewTransitions />
   </head>
   <body class="flex flex-col min-h-screen">

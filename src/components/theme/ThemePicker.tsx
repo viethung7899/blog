@@ -30,7 +30,7 @@ export default function ThemePicker() {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="btn btn-square btn-ghost btn-sm">
+        <button className="btn btn-square btn-sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
