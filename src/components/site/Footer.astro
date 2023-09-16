@@ -1,10 +1,23 @@
 ---
+import { GITHUB_LINK, LINKEDIN_LINK } from "@/constants"
+import Icons from "../icons"
 const year = new Date().getFullYear()
 ---
 
 <footer class="border-t">
   <div class="container flex justify-between text-sm py-2">
     <span>&copy; {year} Viet-Hung Nguyen.</span>
-    <span>Made with <a class="font-semibold" href="https://astro.build">Astro</a> and ❤️</span>
+    <ul class="flex space-x-4">
+      <li>
+        <a title="GitHub" href={GITHUB_LINK} class="link hover:text-primary">
+          <Icons.github className="w-4 h-4" />
+        </a>
+      </li>
+      <li>
+        <a title="Linkedin" href={LINKEDIN_LINK} class="link hover:text-primary">
+          <Icons.linkedin className="w-4 h-4" />
+        </a>
+      </li>
+    </ul>
   </div>
 </footer>

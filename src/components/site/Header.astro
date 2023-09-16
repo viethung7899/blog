@@ -1,10 +1,7 @@
 ---
-import { ABOUT_ME_LINK, GITHUB_LINK, LINKEDIN_LINK } from "@/constants"
+import { ABOUT_ME_LINK } from "@/constants"
 import Logo from "../header/Logo.astro"
-import Icons from "../icons"
 import ThemePicker from "../theme/ThemePicker"
-import DesktopLinks from "../header/DesktopLinks.astro"
-import MobileLinks from "../header/MobileLinks"
 ---
 
 <header class="p-2 sticky top-0 z-40 md:px-[-0.5rem]">
@@ -13,10 +10,11 @@ import MobileLinks from "../header/MobileLinks"
   >
     <Logo />
     <ul class="flex items-center">
-      <li class="sm:hidden">
-        <MobileLinks client:visible />
+      <li>
+        <a class="btn btn-ghost btn-sm normal-case after:content-['_↗']" href={ABOUT_ME_LINK}
+          >About me</a
+        >
       </li>
-      <DesktopLinks />
       <li>
         <ThemePicker client:load />
       </li>
