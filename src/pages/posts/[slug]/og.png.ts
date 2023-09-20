@@ -1,5 +1,5 @@
 import { OGImage } from "@/og/image"
-import { dimension, fonts, imageBase64 } from "@/og/resource"
+import { dimension, fonts } from "@/og/resource"
 import type { APIContext, InferGetStaticPropsType } from "astro"
 import { getCollection } from "astro:content"
 import satori from "satori"
@@ -40,7 +40,6 @@ export async function GET({ props }: APIContext) {
     OGImage({
       title: data.title,
       description: [date, readingTime, ...tags].join(" · "),
-      imageBase64,
     }),
     {
       ...dimension,
