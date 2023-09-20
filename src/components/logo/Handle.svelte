@@ -3,14 +3,14 @@
   export let className: string | undefined
 </script>
 
-<span class={show ? "opacity-100" : `opacity-0 ${className || "mr-[-0.5em]"}`}>
+<span class={show ? "text-transparent" : `text-base-100 opacity-0 ${className || "mr-[-0.5em]"}`}>
   <slot />
 </span>
 
 <style>
   span {
     transition:
-      opacity 500ms ease-in-out,
+      color 500ms ease-in-out,
       margin 500ms ease-in-out;
   }
 </style>

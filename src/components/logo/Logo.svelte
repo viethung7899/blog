@@ -6,7 +6,8 @@
 </script>
 
 <svelte:window bind:scrollY />
-<a href="/" class="font-mono text-sm font-semibold hover:text-primary">
+<a href="/" class="
+  font-mono text-sm font-semibold text-transparent bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text">
   <h2 class="inline-flex">
     <Handle show={!isTop}>&lsqb;</Handle>
     <span>v</span>
