@@ -6,7 +6,7 @@
 </script>
 
 <svelte:window bind:scrollY />
-<a href="/" class="btn normal-case btn-ghost btn-sm font-mono text-primary">
+<a href="/" class="font-mono text-sm font-semibold hover:text-primary">
   <h2 class="inline-flex">
     <Handle show={!isTop}>&lsqb;</Handle>
     <span>v</span>
