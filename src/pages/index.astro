@@ -7,7 +7,7 @@ import { getCollection } from "astro:content"
 
 const posts = await getCollection("posts").then((result) => {
   result.sort((a, b) => +b.data.date - +a.data.date)
-  return result.slice(0, 2)
+  return result.slice(0, 3)
 })
 
 const title = "Viet-Hung Nguyen's Blog"
@@ -44,7 +44,7 @@ const ogImage = new URL("og.png", Astro.site)
   </section>
   <div class="container divider p-0"></div>
   <section class="container my-4 flex flex-col gap-8">
-    <h2 class="text-2xl font-semibold">Latest post</h2>
+    <h2 class="text-2xl font-semibold">Recent posts</h2>
     <ul class="space-y-8">
       {posts.map((entry) => <PostEntry {entry} />)}
     </ul>
