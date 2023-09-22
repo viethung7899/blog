@@ -4,7 +4,7 @@
   const NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 </script>
 
-<div class="grid grid-cols-3 gap-2 keypad self-center">
+<div class="keypad grid grid-cols-3 gap-2 self-center">
   {#each NUMS as num}
     <button class="btn btn-circle btn-ghost btn-lg" on:click={select(num)}>{num}</button>
   {/each}

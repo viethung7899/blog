@@ -19,6 +19,6 @@
   })()
 </script>
 
-<span class="text-primary text-lg text-right">
+<span class="text-right text-lg text-primary">
   {@html katex.renderToString(displayComplex, { displayMode: false })}
 </span>

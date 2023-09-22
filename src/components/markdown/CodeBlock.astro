@@ -18,13 +18,13 @@ import "@/styles/code.css"
 
 <div
   class:list={[
-    "astro-code-block flex flex-col mt-4 text-sm",
+    "astro-code-block mt-4 flex flex-col text-sm",
     { showLineNumbers: showLineNumbers && !isTerminal, isTerminal },
   ]}
 >
   {
     title ? (
-      <div class="astro-code-title self-start rounded-t-lg py-2 px-4 font-semibold font-mono bg-primary text-primary-content join-item">
+      <div class="astro-code-title join-item self-start rounded-t-lg bg-primary px-4 py-2 font-mono font-semibold text-primary-content">
         {title}
       </div>
     ) : null

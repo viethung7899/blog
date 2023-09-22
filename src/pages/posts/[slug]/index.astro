@@ -48,8 +48,8 @@ const image = new URL("og.png", currentLink).toString()
       }}
     />
   </Fragment>
-  <section class="container py-8 mb-8 space-y-4 border-b">
-    <h1 class="font-semibold text-3xl">{title}</h1>
+  <section class="container mb-8 space-y-4 border-b py-8">
+    <h1 class="text-3xl font-semibold">{title}</h1>
     <span>{formattedDate} · {remarkPluginFrontmatter.minutesRead}</span>
     {
       tags ? (

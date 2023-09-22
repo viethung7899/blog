@@ -89,6 +89,6 @@
     ? message.content
     : "Waiting for input..."}
 </div>
-<div class="join-item text-xl sm:text-4xl lg:text-6xl text-base-content/60">
+<div class="join-item text-xl text-base-content/60 sm:text-4xl lg:text-6xl">
   {display.before}<span class="text-accent">{display.between}</span>{display.after}
 </div>

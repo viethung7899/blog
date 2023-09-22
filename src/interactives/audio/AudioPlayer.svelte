@@ -59,13 +59,13 @@
   }
 </script>
 
-<div class="bg-base-300/50 backdrop-blur-xl z-10 rounded-b-lg mt-4 sticky bottom-4">
+<div class="sticky bottom-4 z-10 mt-4 rounded-b-lg bg-base-300/50 backdrop-blur-xl">
   <div class="h-1 bg-neutral">
     <div class="h-full bg-accent" style:width={`${$progress * 100}%`}></div>
   </div>
-  <div class="p-4 flex items-center gap-2">
+  <div class="flex items-center gap-2 p-4">
     <button
-      class="btn btn-circle bg-transparent hover:opacity-100 text-accent"
+      class="btn btn-circle bg-transparent text-accent hover:opacity-100"
       on:click={$playing ? pause : play}
       disabled={!audio}
     >
@@ -82,7 +82,7 @@
     >
       <RotateCcw />
     </button>
-    <div class="font-mono ml-2">{displayTime(timestamp)} / {displayTime(duration)}</div>
+    <div class="ml-2 font-mono">{displayTime(timestamp)} / {displayTime(duration)}</div>
     <div class="ml-auto">
       <UploadAudio />
     </div>

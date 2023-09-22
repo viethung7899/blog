@@ -5,8 +5,8 @@
   export let id = "audio-file"
 </script>
 
-<label for={id} class="btn btn-outline normal-case btn-sm">
-  <Upload class="w-4 h-4" />
+<label for={id} class="btn btn-outline btn-sm normal-case">
+  <Upload class="h-4 w-4" />
   <span class="hidden sm:block">Upload audio</span>
 </label>
 <input

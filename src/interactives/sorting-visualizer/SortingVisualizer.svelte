@@ -53,15 +53,15 @@
 
 <Controller bind:count bind:speed bind:algorithm disabled={playing || isSorting} />
 <div
-  class={`h-60 rounded-md border-2 border-slate-500/25 flex ${
+  class={`flex h-60 rounded-md border-2 border-slate-500/25 ${
     items.length <= 50 ? "gap-1" : "gap-[1px]"
-  } p-2 items-end`}
+  } items-end p-2`}
 >
   {#each items as item}
     <SortingItem {item} />
   {/each}
 </div>
-<div class="flex gap-2 w-full justify-end mt-4">
+<div class="mt-4 flex w-full justify-end gap-2">
   <button class="btn btn-ghost" on:click={() => reset(count)} disabled={isSorting}>Randomize</button
   >
   {#if playing}

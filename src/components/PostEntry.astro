@@ -16,9 +16,9 @@ const formatter = new Intl.DateTimeFormat("en", {
 })
 ---
 
-<li class="flex flex-col group relative z-10">
-  <a href={`/posts/${entry.slug}`} class="link link-hover hover:link-primary">
-    <h3 class="font-semibold text-lg">{title}</h3>
+<li class="group relative z-10 flex flex-col">
+  <a href={`/posts/${entry.slug}`} class="link-hover link hover:link-primary">
+    <h3 class="text-lg font-semibold">{title}</h3>
   </a>
   <small class="text-base-content/60"
     >{formatter.format(date)} · {remarkPluginFrontmatter.minutesRead}</small
@@ -26,12 +26,12 @@ const formatter = new Intl.DateTimeFormat("en", {
   <p>{description}</p>
   {
     tags ? (
-      <div class="flex gap-1 mt-2">
+      <div class="mt-2 flex gap-1">
         {tags.map((tag) => (
-          <div class="badge badge-sm badge-primary">{tag}</div>
+          <div class="badge badge-primary badge-sm">{tag}</div>
         ))}
       </div>
     ) : null
   }
-  <div class="absolute -inset-2 rounded-md group-hover:bg-base-content/20 -z-10"></div>
+  <div class="absolute -inset-2 -z-10 rounded-md group-hover:bg-base-content/20"></div>
 </li>

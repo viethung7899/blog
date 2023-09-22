@@ -66,4 +66,4 @@
   }
 </script>
 
-<canvas class="w-full aspect-[5/2] border rounded-lg bg-base-300" bind:this={canvas} />
+<canvas class="aspect-[5/2] w-full rounded-lg border bg-base-300" bind:this={canvas} />

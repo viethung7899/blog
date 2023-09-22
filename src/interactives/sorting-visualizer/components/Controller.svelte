@@ -12,7 +12,7 @@
   export let speed = speeds[0].value
 </script>
 
-<div class="mb-4 grid sm:grid-cols-2 gap-4 items-center">
+<div class="mb-4 grid items-center gap-4 sm:grid-cols-2">
   <label for="count">
     Number of elements: <strong class="accent">{count}</strong>
   </label>
@@ -27,13 +27,13 @@
     {disabled}
   />
   <label for="algos" class="flex">Sorting algorithm</label>
-  <select id="algos" {disabled} bind:value={algorithm} class="select select-ghost select-bordered">
+  <select id="algos" {disabled} bind:value={algorithm} class="select select-bordered select-ghost">
     {#each Object.keys(algorithms) as name}
       <option value={name}>{name}</option>
     {/each}
   </select>
   <label for="speed" class="flex">Speed</label>
-  <select id="speed" bind:value={speed} class="select select-ghost select-bordered">
+  <select id="speed" bind:value={speed} class="select select-bordered select-ghost">
     {#each speeds as speed}
       <option value={speed.value}>{speed.name}</option>
     {/each}

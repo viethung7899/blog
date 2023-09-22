@@ -108,20 +108,20 @@
 </script>
 
 <div
-  class="mb-4 relative aspect-[4/3] border rounded-lg overflow-hidden cursor-grab"
+  class="relative mb-4 aspect-[4/3] cursor-grab overflow-hidden rounded-lg border"
   bind:this={container}
 >
   <P5 {sketch} />
-  <button class="absolute bottom-4 right-4 btn btn-primary btn-sm" on:click|stopPropagation={reset}
+  <button class="btn btn-primary btn-sm absolute bottom-4 right-4" on:click|stopPropagation={reset}
     >Reset</button
   >
 </div>
 
-<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="mb-4 grid grid-cols-2 gap-4">
   <span>Constant</span>
   <ComplexNumber real={constant.real} imaginary={constant.img} />
   <div class="flex flex-col">
-    <label for="real" class="text-sm mb-2">Real</label>
+    <label for="real" class="mb-2 text-sm">Real</label>
     <input
       id="real"
       type="number"
@@ -129,11 +129,11 @@
       max="3"
       step="0.001"
       bind:value={constant.real}
-      class="input input-ghost input-bordered text-right"
+      class="input input-bordered input-ghost text-right"
     />
   </div>
   <div class="flex flex-col">
-    <label for="imaginary" class="text-sm mb-2">Imaginary</label>
+    <label for="imaginary" class="mb-2 text-sm">Imaginary</label>
     <input
       id="imaginary"
       type="number"
@@ -141,7 +141,7 @@
       max="3"
       step="0.001"
       bind:value={constant.img}
-      class="input input-ghost input-bordered text-right"
+      class="input input-bordered input-ghost text-right"
     />
   </div>
 </div>
