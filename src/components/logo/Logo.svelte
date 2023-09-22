@@ -9,7 +9,7 @@
 <a
   href="/"
   class="
-  bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text font-mono text-sm font-semibold text-transparent"
+  bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text font-mono font-semibold text-transparent"
 >
   <h2 class="inline-flex">
     <Handle show={!isTop}>&lsqb;</Handle>

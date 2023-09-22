@@ -10,7 +10,7 @@
 <style>
   span {
     transition:
-      color 500ms ease-in-out,
-      margin 500ms ease-in-out;
+      color 200ms ease-in-out,
+      margin 200ms ease-in-out;
   }
 </style>

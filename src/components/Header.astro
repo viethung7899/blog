@@ -4,15 +4,14 @@ import Logo from "./logo/Logo.svelte"
 import ThemePicker from "./theme/ThemePicker"
 ---
 
-<header class="sticky top-0 z-40 p-2 md:px-[-0.5rem]">
-  <div
-    class="container flex items-center justify-between rounded-xl border bg-base-100 p-2 shadow-lg"
-  >
+<header class="sticky top-0 z-40 border-b bg-base-100 py-2">
+  <div class="container flex items-center justify-between">
     <Logo client:load />
-    <ul class="flex items-center">
+    <ul class="flex items-center gap-2">
       <li>
-        <a class="btn btn-ghost btn-sm normal-case after:content-['_↗']" href={ABOUT_ME_LINK}
-          >About me</a
+        <a
+          class="link-hover link font-semibold normal-case after:content-['_↗']"
+          href={ABOUT_ME_LINK}>About me</a
         >
       </li>
       <li>
